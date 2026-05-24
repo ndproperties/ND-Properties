@@ -1,0 +1,6 @@
+{
+  "name": "ND Properties",
+  "description": "A curated luxury real estate consultancy offering premium minimalist spaces with a rigorous five-step verification protocol.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
