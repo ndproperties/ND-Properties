@@ -10,6 +10,7 @@ export interface Property {
   sqft: number;
   featured: boolean;
   image: string;
+  images?: string[];
   highlights: string[];
   description: string;
   amenities: string[];

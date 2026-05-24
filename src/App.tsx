@@ -1,7 +1,7 @@
 import React from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { db } from './lib/googleAuth';
-import { collection, addDoc, onSnapshot, query, orderBy } from 'firebase/firestore';
+import { collection, addDoc, onSnapshot, query, orderBy, doc } from 'firebase/firestore';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import HomeView from './components/HomeView';
@@ -10,6 +10,8 @@ import AboutView from './components/AboutView';
 import ContactView from './components/ContactView';
 import BookTodayModal from './components/BookTodayModal';
 import PropertyDetailModal from './components/PropertyDetailModal';
+import AdminPanel from './components/AdminPanel';
+import { seedDatabase } from './lib/dbSeeder';
 
 import { 
   Property, 
@@ -19,8 +21,9 @@ import {
 } from './types';
 
 export default function App() {
-  const [activeTab, setActiveTab] = React.useState<'home' | 'listings' | 'about' | 'contact'>('home');
+  const [activeTab, setActiveTab] = React.useState<'home' | 'listings' | 'about' | 'contact' | 'admin'>('home');
   const [properties, setProperties] = React.useState<Property[]>(INITIAL_PROPERTIES);
+  const [siteContent, setSiteContent] = React.useState<any>(null);
   const [selectedProperty, setSelectedProperty] = React.useState<Property | null>(null);
   const [isBookModalOpen, setIsBookModalOpen] = React.useState(false);
   const [selectedBookPropertyId, setSelectedBookPropertyId] = React.useState<string>('');
@@ -59,6 +62,54 @@ export default function App() {
     });
     return () => unsubscribe();
   }, []);
+
+  // 1. Seed database on mount
+  React.useEffect(() => {
+    seedDatabase();
+  }, []);
+
+  // 2. Sync site content copy in real-time from Firestore
+  React.useEffect(() => {
+    const unsub = onSnapshot(doc(db, 'site_content', 'global'), (docSnap) => {
+      if (docSnap.exists()) {
+        setSiteContent(docSnap.data());
+      }
+    }, (err) => {
+      console.warn("Firestore site_content load failed:", err.message);
+    });
+    return () => unsub();
+  }, []);
+
+  // 3. Sync properties catalog in real-time from Firestore
+  React.useEffect(() => {
+    const q = query(collection(db, "properties"), orderBy("createdAt", "desc"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const list: Property[] = [];
+      snapshot.forEach((docSnap) => {
+        list.push({ id: docSnap.id, ...docSnap.data() } as Property);
+      });
+      if (list.length > 0) {
+        setProperties(list);
+      }
+    }, (err) => {
+      console.warn("Firestore properties load failed:", err.message);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // 4. Listen to hash changes for admin gateway
+  React.useEffect(() => {
+    const handleHashChange = () => {
+      if (window.location.hash === '#admin') {
+        setActiveTab('admin');
+      } else if (activeTab === 'admin') {
+        setActiveTab('home');
+      }
+    };
+    handleHashChange();
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [activeTab]);
 
   const handleNavigateToListings = (filters?: { location?: string; type?: string; priceRange?: string }) => {
     if (filters) {
@@ -130,6 +181,9 @@ export default function App() {
           setActiveTab(tab);
           setPassedFilters(undefined); // Clear filters on explicit navbar tab change
           window.scrollTo({ top: 0, behavior: 'smooth' });
+          if (window.location.hash) {
+            window.history.pushState("", document.title, window.location.pathname + window.location.search);
+          }
         }}
         onBookClick={() => {
           setSelectedBookPropertyId('');
@@ -152,6 +206,7 @@ export default function App() {
                 onNavigateToListings={handleNavigateToListings}
                 onSelectProperty={handleSelectProperty}
                 properties={properties}
+                siteContent={siteContent}
               />
             )}
 
@@ -164,13 +219,22 @@ export default function App() {
             )}
 
             {activeTab === 'about' && (
-              <AboutView />
+              <AboutView siteContent={siteContent} />
             )}
 
             {activeTab === 'contact' && (
               <ContactView 
                 inquiries={inquiries}
                 onAddInquiry={handleAddInquiry}
+                bookings={bookings}
+                siteContent={siteContent}
+              />
+            )}
+
+            {activeTab === 'admin' && (
+              <AdminPanel 
+                siteContent={siteContent}
+                properties={properties}
                 bookings={bookings}
               />
             )}

@@ -2,7 +2,7 @@ import React from 'react';
 import { Globe, Share2, Facebook, Instagram } from 'lucide-react';
 
 interface FooterProps {
-  onTabChange: (tab: 'home' | 'listings' | 'about' | 'contact') => void;
+  onTabChange: (tab: 'home' | 'listings' | 'about' | 'contact' | 'admin') => void;
 }
 
 export default function Footer({ onTabChange }: FooterProps) {
@@ -37,8 +37,16 @@ export default function Footer({ onTabChange }: FooterProps) {
           <a href="#" className="text-gray-500 hover:text-black font-semibold text-[13px] uppercase tracking-wider hover:underline transition-all">
             Sustainability
           </a>
-          <a href="#" className="text-gray-500 hover:text-black font-semibold text-[13px] uppercase tracking-wider hover:underline transition-all">
-            Press
+          <a 
+            href="#admin" 
+            onClick={(e) => {
+              e.preventDefault();
+              onTabChange('admin');
+              window.location.hash = 'admin';
+            }}
+            className="text-gray-400 hover:text-slate-900 font-semibold text-[13px] uppercase tracking-wider hover:underline transition-all"
+          >
+            Admin Panel
           </a>
         </nav>
 

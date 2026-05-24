@@ -7,9 +7,10 @@ interface ContactViewProps {
   inquiries: Inquiry[];
   onAddInquiry: (inquiry: Omit<Inquiry, 'id' | 'timestamp'>) => void;
   bookings: Booking[];
+  siteContent?: any;
 }
 
-export default function ContactView({ inquiries, onAddInquiry, bookings }: ContactViewProps) {
+export default function ContactView({ inquiries, onAddInquiry, bookings, siteContent }: ContactViewProps) {
   const [fullName, setFullName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [message, setMessage] = React.useState('');
@@ -145,7 +146,7 @@ export default function ContactView({ inquiries, onAddInquiry, bookings }: Conta
             <Phone className="w-5 h-5" />
           </div>
           <h4 className="font-bold text-black text-[15px]">Call Global Advisory</h4>
-          <p className="text-gray-500 text-[13px] font-medium">+880 1234 567890</p>
+          <p className="text-gray-500 text-[13px] font-medium">{siteContent?.contactPhone || "+880 1234 567890"}</p>
           <p className="text-gray-400 text-[11px]">Daily 08:30 — 22:00 BST</p>
         </div>
 
@@ -154,7 +155,7 @@ export default function ContactView({ inquiries, onAddInquiry, bookings }: Conta
             <Mail className="w-5 h-5" />
           </div>
           <h4 className="font-bold text-black text-[15px]">General & Escrow Inbox</h4>
-          <p className="text-gray-500 text-[13px] font-medium">hello@ndproperties.com</p>
+          <p className="text-gray-500 text-[13px] font-medium">{siteContent?.contactEmail || "hello@ndproperties.com"}</p>
           <p className="text-gray-400 text-[11px]">Response within 15 Minutes</p>
         </div>
 
@@ -163,7 +164,9 @@ export default function ContactView({ inquiries, onAddInquiry, bookings }: Conta
             <MapPin className="w-5 h-5" />
           </div>
           <h4 className="font-bold text-black text-[15px]">Advisory Lounges</h4>
-          <p className="text-gray-500 text-[13px] font-medium">Beverly Hills • Zurich • Dhaka</p>
+          <p className="text-gray-500 text-[13px] font-medium">
+            {siteContent?.contactLoungeBE || "Beverly Hills"} • {siteContent?.contactLoungeZH || "Zurich"} • {siteContent?.contactLoungeDK || "Dhaka"}
+          </p>
           <p className="text-gray-400 text-[11px]">By Private Invitation Only</p>
         </div>
       </section>

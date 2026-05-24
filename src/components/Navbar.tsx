@@ -3,8 +3,8 @@ import { motion } from 'motion/react';
 import { Menu, X, Calendar } from 'lucide-react';
 
 interface NavbarProps {
-  activeTab: 'home' | 'listings' | 'about' | 'contact';
-  setActiveTab: (tab: 'home' | 'listings' | 'about' | 'contact') => void;
+  activeTab: 'home' | 'listings' | 'about' | 'contact' | 'admin';
+  setActiveTab: (tab: 'home' | 'listings' | 'about' | 'contact' | 'admin') => void;
   onBookClick: () => void;
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, MapPin, BedDouble, Bath, Square, Sparkles, Send, Phone, MessageSquare, ShieldCheck, Mail } from 'lucide-react';
+import { X, MapPin, BedDouble, Bath, Square, Sparkles, Send, Phone, MessageSquare, ShieldCheck, Mail, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Property, Inquiry } from '../types';
 
 interface PropertyDetailModalProps {
@@ -20,15 +20,19 @@ export default function PropertyDetailModal({
   const [inquiryEmail, setInquiryEmail] = React.useState('');
   const [inquiryMessage, setInquiryMessage] = React.useState('');
   const [isSent, setIsSent] = React.useState(false);
+  const [currentImgIndex, setCurrentImgIndex] = React.useState(0);
 
   React.useEffect(() => {
     if (property) {
       setIsSent(false);
       setInquiryMessage(`I am highly interested in viewing ${property.title} in ${property.location}. Please provide a virtual walk-through package and escrow setup details.`);
+      setCurrentImgIndex(0);
     }
   }, [property]);
 
   if (!property) return null;
+
+  const imageList = property.images && property.images.length > 0 ? property.images : [property.image];
 
   const handleInquirySubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,11 +91,43 @@ export default function PropertyDetailModal({
 
           {/* Left panel: Image Carousel & Key specs */}
           <div className="w-full md:w-1/2 relative bg-gray-900 overflow-hidden flex flex-col justify-between">
-            <img 
-              src={property.image} 
-              alt={property.title}
-              className="absolute inset-0 w-full h-full object-cover opacity-80" 
-            />
+            {imageList.length > 0 && (
+              <img 
+                src={imageList[currentImgIndex]} 
+                alt={`${property.title} - Image ${currentImgIndex + 1}`}
+                className="absolute inset-0 w-full h-full object-cover opacity-80 transition-all duration-500" 
+              />
+            )}
+            
+            {/* Sliding controls */}
+            {imageList.length > 1 && (
+              <>
+                <button
+                  onClick={() => setCurrentImgIndex((prev) => (prev === 0 ? imageList.length - 1 : prev - 1))}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2 text-white bg-black/40 hover:bg-black/70 rounded-full transition-colors focus:outline-none"
+                  title="Previous Image"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => setCurrentImgIndex((prev) => (prev === imageList.length - 1 ? 0 : prev + 1))}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2 text-white bg-black/40 hover:bg-black/70 rounded-full transition-colors focus:outline-none"
+                  title="Next Image"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+                {/* Dots indicator */}
+                <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-20 flex gap-1.5 bg-black/35 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
+                  {imageList.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentImgIndex(idx)}
+                      className={`w-2 h-2 rounded-full transition-all ${idx === currentImgIndex ? 'bg-white scale-125' : 'bg-white/40 hover:bg-white/60'}`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
             {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent pointer-events-none" />
 

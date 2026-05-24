@@ -7,9 +7,10 @@ interface HomeViewProps {
   onNavigateToListings: (filters?: { location?: string; type?: string; priceRange?: string }) => void;
   onSelectProperty: (property: Property) => void;
   properties: Property[];
+  siteContent?: any;
 }
 
-export default function HomeView({ onNavigateToListings, onSelectProperty, properties }: HomeViewProps) {
+export default function HomeView({ onNavigateToListings, onSelectProperty, properties, siteContent }: HomeViewProps) {
   const [searchLocation, setSearchLocation] = React.useState('');
   const [searchType, setSearchType] = React.useState('');
   const [searchPrice, setSearchPrice] = React.useState('');
@@ -41,10 +42,8 @@ export default function HomeView({ onNavigateToListings, onSelectProperty, prope
             transition={{ duration: 0.8 }}
             className="text-[40px] md:text-[64px] font-bold tracking-tighter leading-tight font-display-lg"
             id="hero-header"
-          >
-            Get to own your own home and <br />
-            <span className="italic text-gray-400 font-normal">Make your dream come true</span>
-          </motion.h1>
+            dangerouslySetInnerHTML={{ __html: siteContent?.heroTitle ? siteContent.heroTitle.replace(/\n/g, '<br />') : 'Get to own your own home and <br /><span class="italic text-gray-400 font-normal">Make your dream come true</span>' }}
+          />
 
           <motion.p 
             initial={{ opacity: 0 }}
@@ -53,7 +52,7 @@ export default function HomeView({ onNavigateToListings, onSelectProperty, prope
             className="text-gray-500 font-medium text-[16px] md:text-[18px] max-w-2xl leading-relaxed"
             id="hero-paragraph"
           >
-            Exclusive architectural masterpieces, thoughtfully curated for Bengalis who appreciate minimalist elegance and visionary living.
+            {siteContent?.heroSubtitle || "Exclusive architectural masterpieces, thoughtfully curated for Bengalis who appreciate minimalist elegance and visionary living."}
           </motion.p>
 
           {/* Floating Badges */}
@@ -66,11 +65,11 @@ export default function HomeView({ onNavigateToListings, onSelectProperty, prope
           >
             <div className="flex items-center gap-2 bg-white/40 border border-white/60 backdrop-blur-md px-5 py-2.5 rounded-full shadow-sm hover:bg-white/60 transition-colors cursor-default">
               <Phone className="w-4 h-4 text-black" />
-              <span className="font-bold text-black text-[14px]">+880 1234 567890</span>
+              <span className="font-bold text-black text-[14px]">{siteContent?.contactPhone || "+880 1234 567890"}</span>
             </div>
             <div className="flex items-center gap-2 bg-white/40 border border-white/60 backdrop-blur-md px-5 py-2.5 rounded-full shadow-sm hover:bg-white/60 transition-colors cursor-default">
               <Mail className="w-4 h-4 text-black" />
-              <span className="font-bold text-black text-[14px]">hello@ndproperties.com</span>
+              <span className="font-bold text-black text-[14px]">{siteContent?.contactEmail || "hello@ndproperties.com"}</span>
             </div>
           </motion.div>
         </div>

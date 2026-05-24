@@ -1,5 +1,5 @@
 import { initializeApp, getApp, getApps } from 'firebase/app';
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, User } from 'firebase/auth';
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, User, signInWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import firebaseConfig from '../../firebase-applet-config.json';
 
@@ -7,6 +7,19 @@ import firebaseConfig from '../../firebase-applet-config.json';
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+
+/**
+ * Custom sign in for admin using email/password
+ */
+export const adminSignIn = async (email: string, pass: string): Promise<User | null> => {
+  try {
+    const result = await signInWithEmailAndPassword(auth, email, pass);
+    return result.user;
+  } catch (error: any) {
+    console.error('Admin Sign-In Error:', error);
+    throw error;
+  }
+};
 
 // Configure Google Auth Provider
 const provider = new GoogleAuthProvider();

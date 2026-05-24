@@ -2,7 +2,11 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { ShieldCheck, Eye, Compass, Leaf, Landmark, Sparkles, Award, Scale, BookOpen } from 'lucide-react';
 
-export default function AboutView() {
+interface AboutViewProps {
+  siteContent?: any;
+}
+
+export default function AboutView({ siteContent }: AboutViewProps) {
   const steps = [
     {
       num: '01',
@@ -44,12 +48,14 @@ export default function AboutView() {
         <div className="space-y-8">
           <div>
             <span className="text-[12px] font-bold tracking-[0.25em] text-gray-500 uppercase block mb-3">BRAND ARCHITECTURE</span>
-            <h1 className="text-4xl md:text-5xl font-bold text-black tracking-tight leading-tight" id="about-mission-title">
-              A curated luxury <br />real estate consultancy
-            </h1>
+            <h1 
+              className="text-4xl md:text-5xl font-bold text-black tracking-tight leading-tight" 
+              id="about-mission-title"
+              dangerouslySetInnerHTML={{ __html: siteContent?.aboutTitle ? siteContent.aboutTitle.replace(/\n/g, '<br />') : 'A curated luxury <br />real estate consultancy' }}
+            />
           </div>
           <p className="text-gray-500 font-semibold text-[16px] md:text-[18px] leading-relaxed" id="about-mission-desc">
-            Offering premium minimalist spaces tailored with a rigorous five-step verification protocol. We operate strictly as an advisory partner, representing clients who view their residence not just as shelter, but as a fine art asset.
+            {siteContent?.aboutText || "Offering premium minimalist spaces tailored with a rigorous five-step verification protocol. We operate strictly as an advisory partner, representing clients who view their residence not just as shelter, but as a fine art asset."}
           </p>
 
           <div className="flex gap-10 border-t border-gray-100 pt-8">
