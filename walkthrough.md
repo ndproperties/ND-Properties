@@ -51,6 +51,7 @@ All code is located in the project directory [C:/Users/Dipanjan/.gemini/antigrav
 ### 8. Custom Glassmorphic Dropdowns
 - Redesigned the "Property Type" and "Price Range" selectors in [HomeView.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/HomeView.tsx)'s search form. Replaced native browser select fields with custom, dark-theme glass overlays with animations.
 - Added a click listener to automatically close dropdown selectors when the user clicks outside.
+- Fixed a runtime `ReferenceError` (white page crash) by importing `AnimatePresence` from `motion/react` in [HomeView.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/HomeView.tsx).
 
 ### 9. Backend-Editable Dropdown Lists
 - Repurposed existing database columns in the `site_content` table to store comma-separated lists of property types and price ranges.
