@@ -1,7 +1,6 @@
 import React from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { db } from './lib/googleAuth';
-import { collection, addDoc, onSnapshot, query, orderBy, doc } from 'firebase/firestore';
+import { supabase } from './lib/supabaseClient';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import HomeView from './components/HomeView';
@@ -33,34 +32,64 @@ export default function App() {
   const [inquiries, setInquiries] = React.useState<Inquiry[]>([]);
   const [bookings, setBookings] = React.useState<Booking[]>([]);
 
-  // Sync bookings in real-time from Firestore
+  // Sync bookings in real-time from Supabase
   React.useEffect(() => {
-    const q = query(collection(db, "bookings"), orderBy("createdAt", "desc"));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const list: Booking[] = [];
-      snapshot.forEach((doc) => {
-        list.push({ id: doc.id, ...doc.data() } as Booking);
-      });
-      setBookings(list);
-    }, (err) => {
-      console.warn("Firestore bookings load failed:", err.message);
-    });
-    return () => unsubscribe();
+    const fetchBookings = async () => {
+      const { data, error } = await supabase
+        .from('bookings')
+        .select('*')
+        .order('createdAt', { ascending: false });
+      if (data) {
+        setBookings(data as Booking[]);
+      }
+    };
+    
+    fetchBookings();
+
+    const channel = supabase
+      .channel('bookings-changes')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'bookings' },
+        () => {
+          fetchBookings();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
-  // Sync inquiries in real-time from Firestore
+  // Sync inquiries in real-time from Supabase
   React.useEffect(() => {
-    const q = query(collection(db, "inquiries"), orderBy("createdAt", "desc"));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const list: Inquiry[] = [];
-      snapshot.forEach((doc) => {
-        list.push({ id: doc.id, ...doc.data() } as Inquiry);
-      });
-      setInquiries(list);
-    }, (err) => {
-      console.warn("Firestore inquiries load failed:", err.message);
-    });
-    return () => unsubscribe();
+    const fetchInquiries = async () => {
+      const { data, error } = await supabase
+        .from('inquiries')
+        .select('*')
+        .order('createdAt', { ascending: false });
+      if (data) {
+        setInquiries(data as Inquiry[]);
+      }
+    };
+    
+    fetchInquiries();
+
+    const channel = supabase
+      .channel('inquiries-changes')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'inquiries' },
+        () => {
+          fetchInquiries();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   // 1. Seed database on mount
@@ -68,33 +97,67 @@ export default function App() {
     seedDatabase();
   }, []);
 
-  // 2. Sync site content copy in real-time from Firestore
+  // 2. Sync site content copy in real-time from Supabase
   React.useEffect(() => {
-    const unsub = onSnapshot(doc(db, 'site_content', 'global'), (docSnap) => {
-      if (docSnap.exists()) {
-        setSiteContent(docSnap.data());
+    const fetchContent = async () => {
+      const { data, error } = await supabase
+        .from('site_content')
+        .select('*')
+        .eq('id', 'global')
+        .maybeSingle();
+      if (data) {
+        setSiteContent(data);
       }
-    }, (err) => {
-      console.warn("Firestore site_content load failed:", err.message);
-    });
-    return () => unsub();
+    };
+    
+    fetchContent();
+
+    const channel = supabase
+      .channel('site-content-changes')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'site_content', filter: 'id=eq.global' },
+        (payload) => {
+          if (payload.new) {
+            setSiteContent(payload.new);
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
-  // 3. Sync properties catalog in real-time from Firestore
+  // 3. Sync properties catalog in real-time from Supabase
   React.useEffect(() => {
-    const q = query(collection(db, "properties"), orderBy("createdAt", "desc"));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const list: Property[] = [];
-      snapshot.forEach((docSnap) => {
-        list.push({ id: docSnap.id, ...docSnap.data() } as Property);
-      });
-      if (list.length > 0) {
-        setProperties(list);
+    const fetchProperties = async () => {
+      const { data, error } = await supabase
+        .from('properties')
+        .select('*')
+        .order('createdAt', { ascending: false });
+      if (data && data.length > 0) {
+        setProperties(data as Property[]);
       }
-    }, (err) => {
-      console.warn("Firestore properties load failed:", err.message);
-    });
-    return () => unsubscribe();
+    };
+    
+    fetchProperties();
+
+    const channel = supabase
+      .channel('properties-changes')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'properties' },
+        () => {
+          fetchProperties();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   // 4. Listen to hash changes for admin gateway
@@ -133,13 +196,18 @@ export default function App() {
 
   const handleSaveBooking = async (bookingData: Omit<Booking, 'id' | 'timestamp'>) => {
     try {
-      await addDoc(collection(db, "bookings"), {
-        ...bookingData,
-        timestamp: new Date().toLocaleString(),
-        createdAt: new Date().getTime()
-      });
+      const newId = `booking-${Date.now()}`;
+      const { error } = await supabase
+        .from('bookings')
+        .insert({
+          id: newId,
+          ...bookingData,
+          timestamp: new Date().toLocaleString(),
+          createdAt: new Date().getTime()
+        });
+      if (error) throw error;
     } catch (err: any) {
-      console.error("Failed to save booking to Firestore:", err);
+      console.error("Failed to save booking to Supabase:", err);
       const newBooking: Booking = {
         ...bookingData,
         id: `booking-${Date.now()}`,
@@ -151,13 +219,18 @@ export default function App() {
 
   const handleAddInquiry = async (inquiryData: Omit<Inquiry, 'id' | 'timestamp'>) => {
     try {
-      await addDoc(collection(db, "inquiries"), {
-        ...inquiryData,
-        timestamp: new Date().toLocaleString(),
-        createdAt: new Date().getTime()
-      });
+      const newId = `inquiry-${Date.now()}`;
+      const { error } = await supabase
+        .from('inquiries')
+        .insert({
+          id: newId,
+          ...inquiryData,
+          timestamp: new Date().toLocaleString(),
+          createdAt: new Date().getTime()
+        });
+      if (error) throw error;
     } catch (err: any) {
-      console.error("Failed to save inquiry to Firestore:", err);
+      console.error("Failed to save inquiry to Supabase:", err);
       const newInquiry: Inquiry = {
         ...inquiryData,
         id: `inquiry-${Date.now()}`,

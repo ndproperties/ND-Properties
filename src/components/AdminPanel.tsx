@@ -19,8 +19,8 @@ import {
   Sparkles,
   Upload
 } from 'lucide-react';
-import { adminSignIn, db } from '../lib/googleAuth';
-import { doc, setDoc, collection, addDoc, getDocs, updateDoc, deleteDoc } from 'firebase/firestore';
+import { adminSignIn } from '../lib/googleAuth';
+import { supabase } from '../lib/supabaseClient';
 import { Property, Booking, Inquiry } from '../types';
 
 interface AdminPanelProps {
@@ -131,17 +131,21 @@ export default function AdminPanel({ siteContent, properties, bookings }: AdminP
     setCmsSaved(false);
 
     try {
-      await setDoc(doc(db, 'site_content', 'global'), {
-        heroTitle,
-        heroSubtitle,
-        aboutTitle,
-        aboutText,
-        contactEmail,
-        contactPhone,
-        contactLoungeBE,
-        contactLoungeZH,
-        contactLoungeDK
-      });
+      const { error } = await supabase
+        .from('site_content')
+        .upsert({
+          id: 'global',
+          heroTitle,
+          heroSubtitle,
+          aboutTitle,
+          aboutText,
+          contactEmail,
+          contactPhone,
+          contactLoungeBE,
+          contactLoungeZH,
+          contactLoungeDK
+        });
+      if (error) throw error;
       setCmsSaved(true);
       setTimeout(() => setCmsSaved(false), 3000);
     } catch (err: any) {
@@ -191,7 +195,11 @@ export default function AdminPanel({ siteContent, properties, bookings }: AdminP
   const handleDeletePropertyClick = async (propertyId: string) => {
     if (!window.confirm('Are you absolutely sure you want to delete this listing?')) return;
     try {
-      await deleteDoc(doc(db, 'properties', propertyId));
+      const { error } = await supabase
+        .from('properties')
+        .delete()
+        .eq('id', propertyId);
+      if (error) throw error;
       alert('Listing deleted successfully.');
     } catch (err: any) {
       alert(`Delete failed: ${err.message}`);
@@ -291,17 +299,24 @@ export default function AdminPanel({ siteContent, properties, bookings }: AdminP
     try {
       if (selectedProperty) {
         // Edit Mode
-        await updateDoc(doc(db, 'properties', selectedProperty.id), payload);
+        const { error } = await supabase
+          .from('properties')
+          .update(payload)
+          .eq('id', selectedProperty.id);
+        if (error) throw error;
         alert('Listing updated successfully.');
       } else {
         // Add Mode
         const customId = propTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
         const finalId = customId || `prop-${Date.now()}`;
-        await setDoc(doc(db, 'properties', finalId), {
-          ...payload,
-          id: finalId,
-          createdAt: new Date().getTime()
-        });
+        const { error } = await supabase
+          .from('properties')
+          .insert({
+            ...payload,
+            id: finalId,
+            createdAt: new Date().getTime()
+          });
+        if (error) throw error;
         alert('Listing created successfully.');
       }
       setIsFormOpen(false);
