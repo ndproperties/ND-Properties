@@ -555,21 +555,23 @@ export default function AdminPanel({
                         />
                       </div>
                       <div>
-                        <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">Escrow Lounge 2 (Central)</label>
+                        <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">Property Types (Comma separated)</label>
                         <input 
                           type="text"
                           value={contactLoungeZH}
                           onChange={(e) => setContactLoungeZH(e.target.value)}
                           className="w-full bg-white border border-gray-200 focus:border-black rounded-lg px-3 py-2.5 text-xs font-semibold text-black placeholder-gray-300 transition-all outline-none"
+                          placeholder="e.g. Glass Villa, Penthouse, Loft, Estate"
                         />
                       </div>
                       <div>
-                        <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">Escrow Lounge 3 (East)</label>
+                        <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">Price Ranges (Comma separated)</label>
                         <input 
                           type="text"
                           value={contactLoungeDK}
                           onChange={(e) => setContactLoungeDK(e.target.value)}
                           className="w-full bg-white border border-gray-200 focus:border-black rounded-lg px-3 py-2.5 text-xs font-semibold text-black placeholder-gray-300 transition-all outline-none"
+                          placeholder="e.g. 15-30, 30-60, 60-1.5"
                         />
                       </div>
                     </div>

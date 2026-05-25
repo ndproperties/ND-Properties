@@ -27,8 +27,8 @@ export const seedDatabase = async () => {
           contactEmail: 'ndproperties.buisness@gmail.com',
           contactPhone: '9748158051',
           contactLoungeBE: 'Beverly Hills',
-          contactLoungeZH: 'Zurich',
-          contactLoungeDK: 'Dhaka',
+          contactLoungeZH: 'Glass Villa, Penthouse, Loft, Estate, Apartment',
+          contactLoungeDK: '15-30, 30-60, 60-1.5',
         });
       if (insertError) {
         console.error('Failed to seed site_content:', insertError.message);

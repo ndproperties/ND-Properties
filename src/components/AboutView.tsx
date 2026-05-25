@@ -6,6 +6,39 @@ interface AboutViewProps {
   siteContent?: any;
 }
 
+function AnimatedNumber({ value, duration = 1500 }: { value: string; duration?: number }) {
+  const numericMatch = value.match(/\d+/);
+  if (!numericMatch) return <span>{value}</span>;
+  
+  const target = parseInt(numericMatch[0], 10);
+  const suffix = value.replace(numericMatch[0], '');
+  const [count, setCount] = React.useState(0);
+
+  React.useEffect(() => {
+    let start = 0;
+    const end = target;
+    if (start === end) return;
+
+    const totalSteps = 60;
+    const stepTime = Math.max(duration / totalSteps, 16);
+    const increment = end / totalSteps;
+
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= end) {
+        setCount(end);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, stepTime);
+
+    return () => clearInterval(timer);
+  }, [target, duration]);
+
+  return <span>{count}{suffix}</span>;
+}
+
 export default function AboutView({ siteContent }: AboutViewProps) {
   const steps = [
     {
@@ -60,15 +93,21 @@ export default function AboutView({ siteContent }: AboutViewProps) {
 
           <div className="flex gap-10 border-t border-gray-100 pt-8">
             <div className="space-y-1">
-              <span className="block text-2xl font-bold text-black">320+</span>
+              <span className="block text-2xl font-bold text-black">
+                <AnimatedNumber value="320+" />
+              </span>
               <span className="block font-bold text-[11px] text-gray-400 uppercase tracking-widest">Properties Sold</span>
             </div>
             <div className="space-y-1">
-              <span className="block text-2xl font-bold text-black">98%</span>
+              <span className="block text-2xl font-bold text-black">
+                <AnimatedNumber value="98%" />
+              </span>
               <span className="block font-bold text-[11px] text-gray-400 uppercase tracking-widest">Satisfied Clients</span>
             </div>
             <div className="space-y-1">
-              <span className="block text-2xl font-bold text-black">5 Steps</span>
+              <span className="block text-2xl font-bold text-black">
+                <AnimatedNumber value="5 Steps" />
+              </span>
               <span className="block font-bold text-[11px] text-gray-400 uppercase tracking-widest">Verification</span>
             </div>
           </div>

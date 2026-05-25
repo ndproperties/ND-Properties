@@ -10,10 +10,89 @@ interface HomeViewProps {
   siteContent?: any;
 }
 
+function AnimatedNumber({ value, duration = 1500 }: { value: string; duration?: number }) {
+  const numericMatch = value.match(/\d+/);
+  if (!numericMatch) return <span>{value}</span>;
+  
+  const target = parseInt(numericMatch[0], 10);
+  const suffix = value.replace(numericMatch[0], '');
+  const [count, setCount] = React.useState(0);
+
+  React.useEffect(() => {
+    let start = 0;
+    const end = target;
+    if (start === end) return;
+
+    const totalSteps = 60;
+    const stepTime = Math.max(duration / totalSteps, 16);
+    const increment = end / totalSteps;
+
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= end) {
+        setCount(end);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, stepTime);
+
+    return () => clearInterval(timer);
+  }, [target, duration]);
+
+  return <span>{count}{suffix}</span>;
+}
+
 export default function HomeView({ onNavigateToListings, onSelectProperty, properties, siteContent }: HomeViewProps) {
   const [searchLocation, setSearchLocation] = React.useState('');
   const [searchType, setSearchType] = React.useState('');
   const [searchPrice, setSearchPrice] = React.useState('');
+  
+  const [isTypeOpen, setIsTypeOpen] = React.useState(false);
+  const [isPriceOpen, setIsPriceOpen] = React.useState(false);
+
+  // Close dropdowns on outside click
+  React.useEffect(() => {
+    const closeDropdowns = () => {
+      setIsTypeOpen(false);
+      setIsPriceOpen(false);
+    };
+    window.addEventListener('click', closeDropdowns);
+    return () => window.removeEventListener('click', closeDropdowns);
+  }, []);
+
+  // Parse custom property types and price ranges from siteContent (repurposing Escrow lounges)
+  const propertyTypes = siteContent?.contactLoungeZH 
+    ? siteContent.contactLoungeZH.split(',').map((s: string) => s.trim()) 
+    : ['Glass Villa', 'Penthouse', 'Loft', 'Estate'];
+
+  const rawPriceRanges = siteContent?.contactLoungeDK 
+    ? siteContent.contactLoungeDK.split(',').map((s: string) => s.trim()) 
+    : ['15-30', '30-60', '60-1.5'];
+
+  const priceRanges = rawPriceRanges.map((range: string) => {
+    const parts = range.split('-');
+    if (parts.length === 2) {
+      const start = parts[0];
+      const end = parts[1];
+      
+      const formatValue = (val: string) => {
+        const num = parseFloat(val);
+        if (isNaN(num)) return val;
+        if (num >= 1.5) return `${num} cr`;
+        return `${num} lakhs`;
+      };
+      
+      let label = '';
+      if (end === '1.5' || end === '150') {
+        label = `${formatValue(start)} - 1.5 cr`;
+      } else {
+        label = `${formatValue(start)} - ${formatValue(end)}`;
+      }
+      return { label, value: range };
+    }
+    return { label: range, value: range };
+  });
 
   // Extract featured properties for the horizontal curation cards on Home page dynamically
   // If fewer than 3 are marked as featured, fallback to the first available properties
@@ -121,34 +200,116 @@ export default function HomeView({ onNavigateToListings, onSelectProperty, prope
             </div>
 
             {/* Property Type Field */}
-            <div className="flex-1 flex items-center px-4 py-3 gap-3 border-b md:border-b-0 md:border-r border-white/10">
+            <div className="flex-1 flex items-center px-4 py-3 gap-3 border-b md:border-b-0 md:border-r border-white/10 relative">
               <Building className="w-5 h-5 text-white/50 shrink-0" />
-              <select 
-                value={searchType}
-                onChange={(e) => setSearchType(e.target.value)}
-                className="bg-transparent border-none focus:ring-0 w-full text-white font-semibold outline-none text-[14px] appearance-none cursor-pointer"
-              >
-                <option value="" className="text-black">Property Type</option>
-                <option value="Glass Villa" className="text-black">Glass Villa</option>
-                <option value="Penthouse" className="text-black">Minimalist Penthouse</option>
-                <option value="Loft" className="text-black">Atmospheric Loft</option>
-                <option value="Estate" className="text-black">Luxury Estate</option>
-              </select>
+              <div className="w-full relative">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsTypeOpen(!isTypeOpen);
+                    setIsPriceOpen(false);
+                  }}
+                  className="bg-transparent text-left w-full text-white font-semibold outline-none text-[14px] cursor-pointer flex justify-between items-center"
+                >
+                  <span>{searchType || 'Property Type'}</span>
+                  <span className="text-white/40 text-[10px]">▼</span>
+                </button>
+                
+                <AnimatePresence>
+                  {isTypeOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      className="absolute top-full left-0 mt-4 w-56 bg-black/85 backdrop-blur-xl border border-white/20 rounded-xl shadow-2xl z-50 overflow-hidden text-white"
+                    >
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSearchType('');
+                          setIsTypeOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-3 text-sm font-semibold hover:bg-white/15 transition-colors border-b border-white/10"
+                      >
+                        Property Type
+                      </button>
+                      {propertyTypes.map((type) => (
+                        <button
+                          key={type}
+                          type="button"
+                          onClick={() => {
+                            setSearchType(type);
+                            setIsTypeOpen(false);
+                          }}
+                          className="w-full text-left px-4 py-3 text-sm font-semibold hover:bg-white/15 transition-colors"
+                        >
+                          {type}
+                        </button>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
 
             {/* Price Range Field */}
-            <div className="flex-1 flex items-center px-4 py-3 gap-3">
+            <div className="flex-1 flex items-center px-4 py-3 gap-3 relative">
               <IndianRupee className="w-5 h-5 text-white/50 shrink-0" />
-              <select 
-                value={searchPrice}
-                onChange={(e) => setSearchPrice(e.target.value)}
-                className="bg-transparent border-none focus:ring-0 w-full text-white font-semibold outline-none text-[14px] appearance-none cursor-pointer"
-              >
-                <option value="" className="text-black">Price Range</option>
-                <option value="15-30" className="text-black">15 - 30 lakhs</option>
-                <option value="30-60" className="text-black">30 - 60 lakhs</option>
-                <option value="60-1.5" className="text-black">60 lakhs - 1.5 cr</option>
-              </select>
+              <div className="w-full relative">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsPriceOpen(!isPriceOpen);
+                    setIsTypeOpen(false);
+                  }}
+                  className="bg-transparent text-left w-full text-white font-semibold outline-none text-[14px] cursor-pointer flex justify-between items-center"
+                >
+                  <span>
+                    {searchPrice 
+                      ? priceRanges.find(p => p.value === searchPrice)?.label || searchPrice 
+                      : 'Price Range'
+                    }
+                  </span>
+                  <span className="text-white/40 text-[10px]">▼</span>
+                </button>
+                
+                <AnimatePresence>
+                  {isPriceOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      className="absolute top-full left-0 mt-4 w-56 bg-black/85 backdrop-blur-xl border border-white/20 rounded-xl shadow-2xl z-50 overflow-hidden text-white"
+                    >
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSearchPrice('');
+                          setIsPriceOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-3 text-sm font-semibold hover:bg-white/15 transition-colors border-b border-white/10"
+                      >
+                        Price Range
+                      </button>
+                      {priceRanges.map((range) => (
+                        <button
+                          key={range.value}
+                          type="button"
+                          onClick={() => {
+                            setSearchPrice(range.value);
+                            setIsPriceOpen(false);
+                          }}
+                          className="w-full text-left px-4 py-3 text-sm font-semibold hover:bg-white/15 transition-colors"
+                        >
+                          {range.label}
+                        </button>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
 
             {/* Search Submit Button */}
@@ -253,11 +414,15 @@ export default function HomeView({ onNavigateToListings, onSelectProperty, prope
             {/* Metrics column group */}
             <div className="flex gap-12 border-t border-gray-200/55 pt-8">
               <div>
-                <span className="block font-bold text-4xl text-black leading-none tracking-tighter">320+</span>
+                <span className="block font-bold text-4xl text-black leading-none tracking-tighter">
+                  <AnimatedNumber value="320+" />
+                </span>
                 <span className="font-bold text-[11px] text-gray-400 uppercase tracking-widest block mt-2">Properties Sold</span>
               </div>
               <div>
-                <span className="block font-bold text-4xl text-black leading-none tracking-tighter">98%</span>
+                <span className="block font-bold text-4xl text-black leading-none tracking-tighter">
+                  <AnimatedNumber value="98%" />
+                </span>
                 <span className="font-bold text-[11px] text-gray-400 uppercase tracking-widest block mt-2">Client Satisfaction</span>
               </div>
             </div>

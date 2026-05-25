@@ -215,7 +215,11 @@ export default function ListingsView({ properties, onSelectProperty, passedFilte
             {filteredProperties.length > 0 && (() => {
               const bannerProp = filteredProperties[0];
               return (
-                <div 
+                <motion.div 
+                  initial={{ opacity: 0, y: 60 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.15 }}
+                  transition={{ duration: 0.7 }}
                   onClick={() => onSelectProperty(bannerProp)}
                   className="md:col-span-8 group relative overflow-hidden rounded-2xl h-[600px] border border-white/60 bg-white/40 shadow-sm cursor-pointer transition-all duration-500"
                   id={`listings-featured-pavilion-card-${bannerProp.id}`}
@@ -246,7 +250,7 @@ export default function ListingsView({ properties, onSelectProperty, passedFilte
                       </div>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               );
             })()}
 
@@ -254,7 +258,11 @@ export default function ListingsView({ properties, onSelectProperty, passedFilte
             {filteredProperties.length > 1 && (() => {
               const sideProp = filteredProperties[1];
               return (
-                <div 
+                <motion.div 
+                  initial={{ opacity: 0, y: 60 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.15 }}
+                  transition={{ duration: 0.7, delay: 0.15 }}
                   onClick={() => onSelectProperty(sideProp)}
                   className="md:col-span-4 group relative overflow-hidden rounded-2xl h-[600px] border border-white/60 bg-white/40 shadow-sm cursor-pointer transition-all duration-500"
                   id={`listings-side-card-${sideProp.id}`}
@@ -287,7 +295,7 @@ export default function ListingsView({ properties, onSelectProperty, passedFilte
                       </span>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               );
             })()}
 
@@ -295,8 +303,12 @@ export default function ListingsView({ properties, onSelectProperty, passedFilte
             {filteredProperties.length > 2 && (
               <div className="md:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-8">
                 {filteredProperties.slice(2).map(p => (
-                  <div
+                  <motion.div
                     key={p.id}
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: false, amount: 0.15 }}
+                    transition={{ duration: 0.6 }}
                     onClick={() => onSelectProperty(p)}
                     className="group relative h-[400px] overflow-hidden rounded-2xl border border-white/60 bg-white/40 shadow-sm cursor-pointer transition-all duration-500 hover:-translate-y-2"
                     id={`listings-curated-card-${p.id}`}
@@ -316,7 +328,7 @@ export default function ListingsView({ properties, onSelectProperty, passedFilte
                         <span className="text-[#b9c7e0] font-extrabold">{p.price}</span>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             )}
@@ -326,7 +338,14 @@ export default function ListingsView({ properties, onSelectProperty, passedFilte
       </section>
 
       {/* 3. Newsletter Subscription Panel */}
-      <section className="bg-white/50 border border-white/60 backdrop-blur-xl p-10 md:p-16 rounded-2xl text-center space-y-8 relative overflow-hidden" id="newsletter-panel">
+      <motion.section 
+        initial={{ opacity: 0, y: 60 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.15 }}
+        transition={{ duration: 0.8 }}
+        className="bg-white/50 border border-white/60 backdrop-blur-xl p-10 md:p-16 rounded-2xl text-center space-y-8 relative overflow-hidden" 
+        id="newsletter-panel"
+      >
         <div className="space-y-4 max-w-2xl mx-auto">
           <h2 className="text-3xl font-bold tracking-tight text-black" id="newsletter-title">
             Stay Ahead of the Market
@@ -375,7 +394,7 @@ export default function ListingsView({ properties, onSelectProperty, passedFilte
             </motion.form>
           )}
         </AnimatePresence>
-      </section>
+      </motion.section>
 
       </div>
     </div>
