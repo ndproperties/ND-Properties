@@ -162,11 +162,21 @@ export default function App() {
   }, [fetchProperties]);
 
   // Refetch data when switching tabs (ensures updates show immediately even if Realtime replication is disabled)
+  // Also establishes an 8-second polling timer to automatically catch changes made directly in the backend (Supabase dashboard or other clients)
   React.useEffect(() => {
     fetchContent();
     fetchProperties();
     fetchBookings();
     fetchInquiries();
+
+    const interval = setInterval(() => {
+      fetchContent();
+      fetchProperties();
+      fetchBookings();
+      fetchInquiries();
+    }, 8000);
+
+    return () => clearInterval(interval);
   }, [activeTab, fetchContent, fetchProperties, fetchBookings, fetchInquiries]);
 
   // 4. Listen to hash changes for admin gateway
@@ -318,6 +328,9 @@ export default function App() {
                 siteContent={siteContent}
                 properties={properties}
                 bookings={bookings}
+                onRefreshProperties={fetchProperties}
+                onRefreshContent={fetchContent}
+                onRefreshBookings={fetchBookings}
               />
             )}
           </motion.div>

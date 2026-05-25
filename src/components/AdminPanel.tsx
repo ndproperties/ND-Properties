@@ -27,9 +27,19 @@ interface AdminPanelProps {
   siteContent: any;
   properties: Property[];
   bookings: Booking[];
+  onRefreshProperties: () => void;
+  onRefreshContent: () => void;
+  onRefreshBookings: () => void;
 }
 
-export default function AdminPanel({ siteContent, properties, bookings }: AdminPanelProps) {
+export default function AdminPanel({ 
+  siteContent, 
+  properties, 
+  bookings,
+  onRefreshProperties,
+  onRefreshContent,
+  onRefreshBookings
+}: AdminPanelProps) {
   // Login credentials
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -151,6 +161,7 @@ export default function AdminPanel({ siteContent, properties, bookings }: AdminP
         });
       if (error) throw error;
       setCmsSaved(true);
+      onRefreshContent();
       setTimeout(() => setCmsSaved(false), 3000);
     } catch (err: any) {
       alert(`Failed to save CMS settings: ${err.message}`);
@@ -205,6 +216,7 @@ export default function AdminPanel({ siteContent, properties, bookings }: AdminP
         .eq('id', propertyId);
       if (error) throw error;
       alert('Listing deleted successfully.');
+      onRefreshProperties();
     } catch (err: any) {
       alert(`Delete failed: ${err.message}`);
     }
@@ -234,7 +246,7 @@ export default function AdminPanel({ siteContent, properties, bookings }: AdminP
           setPropImages(prev => [...prev, reader.result as string]);
         }
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(file as Blob);
     });
   };
 
@@ -323,6 +335,7 @@ export default function AdminPanel({ siteContent, properties, bookings }: AdminP
         if (error) throw error;
         alert('Listing created successfully.');
       }
+      onRefreshProperties();
       setIsFormOpen(false);
     } catch (err: any) {
       alert(`Saving failed: ${err.message}`);
