@@ -13,8 +13,9 @@ All code is located in the project directory [C:/Users/Dipanjan/.gemini/antigrav
 - [src/components/AdminPanel.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/AdminPanel.tsx): Exposes management tabs for site copywriting, listings (CRUD operations), and bookings. Employs parent refresh triggers to update the website state instantly on save/delete/create.
 - [index.html](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/index.html): Configures custom favicon, custom font typography, titles, descriptions, and Open Graph tags for SEO.
 - [src/components/PropertyDetailModal.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/PropertyDetailModal.tsx) & [src/components/BookTodayModal.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/BookTodayModal.tsx): Refactored layouts to resolve mobile viewport overflow and container collapse issues.
-- [src/components/HomeView.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/HomeView.tsx) & [src/components/ContactView.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/ContactView.tsx): Removed translation hacks and shadow lines on background pictures, aligning them to the top.
+- [src/components/HomeView.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/HomeView.tsx), [src/components/ContactView.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/ContactView.tsx) & [src/components/ListingsView.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/ListingsView.tsx): Removed translation hacks and shadow lines on background pictures, aligning them to the top and wrapping filters/grid elements in margins.
 - [src/components/Navbar.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/Navbar.tsx): Removed the inset shadow white line from the header to provide a completely clean layout.
+- [src/components/AboutView.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/AboutView.tsx): Rewritten about view to remove "curated luxury" references and align the company portfolio branding, steps, and metrics with the home page verification process.
 
 ---
 
@@ -22,13 +23,23 @@ All code is located in the project directory [C:/Users/Dipanjan/.gemini/antigrav
 
 ### 1. Thin Line & Background Border Fixes
 - Removed the inset white line shadow (`shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2)]`) from the sticky navbar header container.
-- Made the top padding of the `<main>` tag conditional in `App.tsx`: for `home` and `contact` tabs, padding-top is `pt-0` and the wrapper is full-bleed, allowing the background skyline pictures to touch the top of the viewport directly.
-- Cleared the sticky navbar overlay height by using appropriate padding-top (`pt-32`) inside `HomeView.tsx` hero and `ContactView.tsx` wrapper.
+- Made the top padding of the `<main>` tag conditional in `App.tsx`: for `home`, `contact`, and `listings` tabs, padding-top is `pt-0` and the wrapper is full-bleed, allowing the background skyline and property pictures to touch the top of the viewport directly.
+- Cleared the sticky navbar overlay height by using appropriate padding-top (`pt-32`) inside `HomeView.tsx` hero, `ContactView.tsx` wrapper, and `ListingsView.tsx` hero.
 - Removed `shadow-2xl` and translation constraints from backgrounds to prevent thin borders/visible white lines at the edges.
 
-### 2. Contact View Layout Reorder
+### 2. Slower Contact View Background Animation
+- Slowed down the sliding animation speed of the city skyline background in [ContactView.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/ContactView.tsx) by 5 times (increased duration from `45s` to `225s` for a much calmer transition).
+
+### 3. Contact View Layout Reorder
 - Reordered elements in `ContactView.tsx` so that the "Give a call to our representative" call card, Email cards, and Location map block appear at the top.
 - The "Get in touch" heading along with the inquiry form (Full Name, Email Address, and Project description textareas) is placed directly below the call section.
+
+### 4. Listings Page Banner & Copywriting
+- Redesigned the header of [ListingsView.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/ListingsView.tsx) to match the website style. It now uses a full-bleed property image background (`https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80`) and displays "Get to own your own home" and "Make your dream come true" inside a premium liquid glass panel.
+
+### 5. About Page Portfolio Copywriting
+- Completely overhauled [AboutView.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/AboutView.tsx) to align with the website. Removed "curated luxury" references and changed the main heading to **"We are a premium property listing company"** with tag **"COMPANY PORTFOLIO"**.
+- Updated the 5 verification steps and statistics on the About page to match the home page process (Paper Verification, Locality & Distance, Utility & Parking Check, On-Site Verification, and Official Listing).
 
 ---
 
