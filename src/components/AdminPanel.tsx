@@ -108,7 +108,11 @@ export default function AdminPanel({ siteContent, properties, bookings }: AdminP
     try {
       const user = await adminSignIn(email, password);
       if (user) {
-        setIsAdmin(true);
+        if (user.email === 'dipanjanbaidya2007@gmail.com') {
+          setIsAdmin(true);
+        } else {
+          throw new Error('Access denied: Unauthorized email address.');
+        }
       }
     } catch (err: any) {
       console.error(err);
