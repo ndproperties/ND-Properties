@@ -13,26 +13,26 @@ All code is located in the project directory [C:/Users/Dipanjan/.gemini/antigrav
 - [src/components/AdminPanel.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/AdminPanel.tsx): Exposes management tabs for site copywriting, listings (CRUD operations), and bookings. Employs parent refresh triggers to update the website state instantly on save/delete/create.
 - [index.html](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/index.html): Configures custom favicon, custom font typography, titles, descriptions, and Open Graph tags for SEO.
 - [src/components/PropertyDetailModal.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/PropertyDetailModal.tsx) & [src/components/BookTodayModal.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/BookTodayModal.tsx): Refactored layouts to resolve mobile viewport overflow and container collapse issues.
+- [src/components/HomeView.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/HomeView.tsx) & [src/components/ContactView.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/ContactView.tsx): Removed translation hacks and shadow lines on background pictures, aligning them to the top.
+- [src/components/Navbar.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/Navbar.tsx): Removed the inset shadow white line from the header to provide a completely clean layout.
 
 ---
 
-## Live Real-Time & Backend Reflectivity Features
+## Restructuring & Styling Improvements
 
-### 1. Instant Same-Session Updates
-When the administrator makes changes in the **Console Management** (`AdminPanel` tab):
-- Updating Site Copy (Hero Title, Subtitle, Contact details, etc.)
-- Creating a new property listing
-- Updating or deleting an existing property listing
-The actions trigger immediate parent state reload hooks (`onRefreshProperties`, `onRefreshContent`, `onRefreshBookings`) to synchronize the global UI instantly without waiting or reloading.
+### 1. Thin Line & Background Border Fixes
+- Removed the inset white line shadow (`shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2)]`) from the sticky navbar header container.
+- Made the top padding of the `<main>` tag conditional in `App.tsx`: for `home` and `contact` tabs, padding-top is `pt-0` and the wrapper is full-bleed, allowing the background skyline pictures to touch the top of the viewport directly.
+- Cleared the sticky navbar overlay height by using appropriate padding-top (`pt-32`) inside `HomeView.tsx` hero and `ContactView.tsx` wrapper.
+- Removed `shadow-2xl` and translation constraints from backgrounds to prevent thin borders/visible white lines at the edges.
 
-### 2. Automatic Cross-Client & Dashboard Polling Fallback
-To ensure changes made directly on the **Supabase Dashboard** or from **another browser session** propagate seamlessly:
-- We have introduced a continuous background polling loop in `App.tsx` that re-fetches all property catalogs, booking logs, customer inquiries, and site copywriting from the database every **8 seconds**.
-- In addition to polling, the application automatically refetches all datasets whenever the user shifts between navigation views or enters/leaves the Admin panel, ensuring zero stale states.
+### 2. Contact View Layout Reorder
+- Reordered elements in `ContactView.tsx` so that the "Give a call to our representative" call card, Email cards, and Location map block appear at the top.
+- The "Get in touch" heading along with the inquiry form (Full Name, Email Address, and Project description textareas) is placed directly below the call section.
 
 ---
 
 ## Deployment & Verification
 - Pushed changes to `main` branch.
-- Production build verified using `npm run build` and `npm run lint`.
+- Production build verified using `powershell -ExecutionPolicy Bypass -Command "npm run build"`.
 - Runs on Vercel dynamically linked to Supabase.
