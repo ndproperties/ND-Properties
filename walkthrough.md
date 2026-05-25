@@ -41,6 +41,22 @@ All code is located in the project directory [C:/Users/Dipanjan/.gemini/antigrav
 - Completely overhauled [AboutView.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/AboutView.tsx) to align with the website. Removed "curated luxury" references and changed the main heading to **"We are a premium property listing company"** with tag **"COMPANY PORTFOLIO"**.
 - Updated the 5 verification steps and statistics on the About page to match the home page process (Paper Verification, Locality & Distance, Utility & Parking Check, On-Site Verification, and Official Listing).
 
+### 6. Interactive Scroll Fading Animations
+- Upgraded the bento grid cards in [ListingsView.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/ListingsView.tsx) and the newsletter panel to use Framer Motion scroll indicators. Objects now smoothly fade away when scrolling out of view and slide up/unfade when entering the viewport (`once: false` trigger).
+
+### 7. Run/Animated Statistics Numbers
+- Added an `AnimatedNumber` helper component in [HomeView.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/HomeView.tsx) and [AboutView.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/AboutView.tsx).
+- All statistics (e.g. `320+` Properties Sold, `98%` Client Satisfaction, and `5 Steps` Verification) count up smoothly from 0 to their target number upon loading.
+
+### 8. Custom Glassmorphic Dropdowns
+- Redesigned the "Property Type" and "Price Range" selectors in [HomeView.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/HomeView.tsx)'s search form. Replaced native browser select fields with custom, dark-theme glass overlays with animations.
+- Added a click listener to automatically close dropdown selectors when the user clicks outside.
+
+### 9. Backend-Editable Dropdown Lists
+- Repurposed existing database columns in the `site_content` table to store comma-separated lists of property types and price ranges.
+- Updated the CMS editor forms in [AdminPanel.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/AdminPanel.tsx) to label these fields as **Property Types** and **Price Ranges**.
+- Modified [dbSeeder.ts](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/lib/dbSeeder.ts) to populate these lists with default values. The client parses these lists dynamically to drive frontend dropdown menus and search inputs.
+
 ---
 
 ## Deployment & Verification
