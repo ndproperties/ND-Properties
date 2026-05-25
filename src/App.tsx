@@ -32,18 +32,50 @@ export default function App() {
   const [inquiries, setInquiries] = React.useState<Inquiry[]>([]);
   const [bookings, setBookings] = React.useState<Booking[]>([]);
 
+  // Reusable data fetching functions
+  const fetchBookings = React.useCallback(async () => {
+    const { data } = await supabase
+      .from('bookings')
+      .select('*')
+      .order('createdAt', { ascending: false });
+    if (data) {
+      setBookings(data as Booking[]);
+    }
+  }, []);
+
+  const fetchInquiries = React.useCallback(async () => {
+    const { data } = await supabase
+      .from('inquiries')
+      .select('*')
+      .order('createdAt', { ascending: false });
+    if (data) {
+      setInquiries(data as Inquiry[]);
+    }
+  }, []);
+
+  const fetchContent = React.useCallback(async () => {
+    const { data } = await supabase
+      .from('site_content')
+      .select('*')
+      .eq('id', 'global')
+      .maybeSingle();
+    if (data) {
+      setSiteContent(data);
+    }
+  }, []);
+
+  const fetchProperties = React.useCallback(async () => {
+    const { data } = await supabase
+      .from('properties')
+      .select('*')
+      .order('createdAt', { ascending: false });
+    if (data && data.length > 0) {
+      setProperties(data as Property[]);
+    }
+  }, []);
+
   // Sync bookings in real-time from Supabase
   React.useEffect(() => {
-    const fetchBookings = async () => {
-      const { data, error } = await supabase
-        .from('bookings')
-        .select('*')
-        .order('createdAt', { ascending: false });
-      if (data) {
-        setBookings(data as Booking[]);
-      }
-    };
-    
     fetchBookings();
 
     const channel = supabase
@@ -60,20 +92,10 @@ export default function App() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [fetchBookings]);
 
   // Sync inquiries in real-time from Supabase
   React.useEffect(() => {
-    const fetchInquiries = async () => {
-      const { data, error } = await supabase
-        .from('inquiries')
-        .select('*')
-        .order('createdAt', { ascending: false });
-      if (data) {
-        setInquiries(data as Inquiry[]);
-      }
-    };
-    
     fetchInquiries();
 
     const channel = supabase
@@ -90,7 +112,7 @@ export default function App() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [fetchInquiries]);
 
   // 1. Seed database on mount
   React.useEffect(() => {
@@ -99,17 +121,6 @@ export default function App() {
 
   // 2. Sync site content copy in real-time from Supabase
   React.useEffect(() => {
-    const fetchContent = async () => {
-      const { data, error } = await supabase
-        .from('site_content')
-        .select('*')
-        .eq('id', 'global')
-        .maybeSingle();
-      if (data) {
-        setSiteContent(data);
-      }
-    };
-    
     fetchContent();
 
     const channel = supabase
@@ -128,20 +139,10 @@ export default function App() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [fetchContent]);
 
   // 3. Sync properties catalog in real-time from Supabase
   React.useEffect(() => {
-    const fetchProperties = async () => {
-      const { data, error } = await supabase
-        .from('properties')
-        .select('*')
-        .order('createdAt', { ascending: false });
-      if (data && data.length > 0) {
-        setProperties(data as Property[]);
-      }
-    };
-    
     fetchProperties();
 
     const channel = supabase
@@ -158,7 +159,15 @@ export default function App() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [fetchProperties]);
+
+  // Refetch data when switching tabs (ensures updates show immediately even if Realtime replication is disabled)
+  React.useEffect(() => {
+    fetchContent();
+    fetchProperties();
+    fetchBookings();
+    fetchInquiries();
+  }, [activeTab, fetchContent, fetchProperties, fetchBookings, fetchInquiries]);
 
   // 4. Listen to hash changes for admin gateway
   React.useEffect(() => {
