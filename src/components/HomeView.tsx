@@ -65,11 +65,11 @@ export default function HomeView({ onNavigateToListings, onSelectProperty, prope
           >
             <div className="flex items-center gap-2 bg-white/40 border border-white/60 backdrop-blur-md px-5 py-2.5 rounded-full shadow-sm hover:bg-white/60 transition-colors cursor-default">
               <Phone className="w-4 h-4 text-black" />
-              <span className="font-bold text-black text-[14px]">{siteContent?.contactPhone || "+880 1234 567890"}</span>
+              <span className="font-bold text-black text-[14px]">{siteContent?.contactPhone || "9748158051"}</span>
             </div>
             <div className="flex items-center gap-2 bg-white/40 border border-white/60 backdrop-blur-md px-5 py-2.5 rounded-full shadow-sm hover:bg-white/60 transition-colors cursor-default">
               <Mail className="w-4 h-4 text-black" />
-              <span className="font-bold text-black text-[14px]">{siteContent?.contactEmail || "hello@ndproperties.com"}</span>
+              <span className="font-bold text-black text-[14px]">{siteContent?.contactEmail || "ndproperties.buisness@gmail.com"}</span>
             </div>
           </motion.div>
         </div>

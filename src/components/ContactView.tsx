@@ -146,7 +146,7 @@ export default function ContactView({ inquiries, onAddInquiry, bookings, siteCon
             <Phone className="w-5 h-5" />
           </div>
           <h4 className="font-bold text-black text-[15px]">Call Global Advisory</h4>
-          <p className="text-gray-500 text-[13px] font-medium">{siteContent?.contactPhone || "+880 1234 567890"}</p>
+          <p className="text-gray-500 text-[13px] font-medium">{siteContent?.contactPhone || "9748158051"}</p>
           <p className="text-gray-400 text-[11px]">Daily 08:30 — 22:00 BST</p>
         </div>
 
@@ -155,7 +155,7 @@ export default function ContactView({ inquiries, onAddInquiry, bookings, siteCon
             <Mail className="w-5 h-5" />
           </div>
           <h4 className="font-bold text-black text-[15px]">General & Escrow Inbox</h4>
-          <p className="text-gray-500 text-[13px] font-medium">{siteContent?.contactEmail || "hello@ndproperties.com"}</p>
+          <p className="text-gray-500 text-[13px] font-medium">{siteContent?.contactEmail || "ndproperties.buisness@gmail.com"}</p>
           <p className="text-gray-400 text-[11px]">Response within 15 Minutes</p>
         </div>
 

@@ -159,7 +159,7 @@ export default function BookTodayModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', duration: 0.5 }}
-            className="w-full max-w-lg bg-white/95 backdrop-blur-xl border border-gray-100 rounded-2xl shadow-2xl overflow-hidden relative z-10 p-6 md:p-8"
+            className="w-full max-w-lg bg-white/95 backdrop-blur-xl border border-gray-100 rounded-2xl shadow-2xl overflow-hidden relative z-10 p-6 md:p-8 max-h-[90vh] flex flex-col"
             id="book-modal-card"
           >
             {/* Close Button */}
@@ -225,7 +225,7 @@ export default function BookTodayModal({
                 )}
               </motion.div>
             ) : (
-              <div id="booking-form-state">
+              <div id="booking-form-state" className="overflow-y-auto pr-1 flex-grow">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 bg-black text-white flex items-center justify-center rounded-lg">
                     <Calendar className="w-5 h-5" />

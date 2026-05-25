@@ -90,7 +90,7 @@ export default function PropertyDetailModal({
           </button>
 
           {/* Left panel: Image Carousel & Key specs */}
-          <div className="w-full md:w-1/2 relative bg-gray-900 overflow-hidden flex flex-col justify-between">
+          <div className="w-full md:w-1/2 relative bg-gray-900 overflow-hidden flex flex-col justify-between h-[340px] md:h-auto shrink-0">
             {imageList.length > 0 && (
               <img 
                 src={imageList[currentImgIndex]} 
