@@ -34,110 +34,124 @@ export default function HomeView({ onNavigateToListings, onSelectProperty, prope
   return (
     <div id="home-view-container" className="space-y-32">
       
-      {/* 1. Hero Section */}
-      <section className="relative min-h-[85vh] flex flex-col justify-center pt-24 pb-12">
-        <div className="flex flex-col items-center text-center space-y-8 max-w-5xl mx-auto px-4">
-          <motion.h1 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-[40px] md:text-[64px] font-bold tracking-tighter leading-tight font-display-lg"
-            id="hero-header"
-            dangerouslySetInnerHTML={{ __html: siteContent?.heroTitle ? siteContent.heroTitle.replace(/\n/g, '<br />') : 'Get to own your own home and <br /><span class="italic text-gray-400 font-normal">Make your dream come true</span>' }}
-          />
-
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            className="text-gray-500 font-medium text-[16px] md:text-[18px] max-w-2xl leading-relaxed"
-            id="hero-paragraph"
-          >
-            {siteContent?.heroSubtitle || "Exclusive architectural masterpieces, thoughtfully curated for Bengalis who appreciate minimalist elegance and visionary living."}
-          </motion.p>
-
-          {/* Floating Badges */}
+      {/* 1. Hero Section with City Skyline Background */}
+      <section className="relative min-h-[85vh] flex flex-col justify-center pt-28 pb-16 rounded-3xl overflow-hidden shadow-2xl border border-white/40 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1600&q=80')" }}>
+        
+        {/* Dark/blue overlay to ensure text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-950/40 via-black/40 to-black/60 z-0" />
+        
+        <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto px-4 w-full">
+          
+          {/* Liquid Glass Wrapper for Hero content */}
           <motion.div 
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-            className="flex flex-wrap justify-center gap-6 pt-2"
-            id="hero-badges"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+            className="bg-white/10 backdrop-blur-md border border-white/20 p-8 md:p-12 rounded-3xl shadow-2xl w-full space-y-6 text-white"
+            id="hero-liquid-glass"
           >
-            <div className="flex items-center gap-2 bg-white/40 border border-white/60 backdrop-blur-md px-5 py-2.5 rounded-full shadow-sm hover:bg-white/60 transition-colors cursor-default">
-              <Phone className="w-4 h-4 text-black" />
-              <span className="font-bold text-black text-[14px]">{siteContent?.contactPhone || "9748158051"}</span>
-            </div>
-            <div className="flex items-center gap-2 bg-white/40 border border-white/60 backdrop-blur-md px-5 py-2.5 rounded-full shadow-sm hover:bg-white/60 transition-colors cursor-default">
-              <Mail className="w-4 h-4 text-black" />
-              <span className="font-bold text-black text-[14px]">{siteContent?.contactEmail || "ndproperties.buisness@gmail.com"}</span>
-            </div>
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="text-[34px] md:text-[54px] font-extrabold tracking-tighter leading-tight font-display-lg drop-shadow-md text-white"
+              id="hero-header"
+              dangerouslySetInnerHTML={{ __html: siteContent?.heroTitle ? siteContent.heroTitle.replace(/\n/g, '<br />') : 'Get to own your own home and <br /><span class="italic text-gray-200 font-normal">Make your dream come true</span>' }}
+            />
+
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="text-gray-100 font-semibold text-[15px] md:text-[17px] max-w-2xl mx-auto leading-relaxed drop-shadow-md"
+              id="hero-paragraph"
+            >
+              {siteContent?.heroSubtitle || "Exclusive architectural masterpieces, thoughtfully curated for Bengalis who appreciate minimalist elegance and visionary living."}
+            </motion.p>
+
+            {/* Floating Badges inside Liquid Glass */}
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+              className="flex flex-wrap justify-center gap-4 pt-2"
+              id="hero-badges"
+            >
+              <div className="flex items-center gap-2 bg-white/20 border border-white/30 backdrop-blur-md px-5 py-2.5 rounded-full shadow-sm hover:bg-white/30 transition-colors cursor-default text-white">
+                <Phone className="w-4 h-4 text-white" />
+                <span className="font-bold text-[14px]">{siteContent?.contactPhone || "9748158051"}</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/20 border border-white/30 backdrop-blur-md px-5 py-2.5 rounded-full shadow-sm hover:bg-white/30 transition-colors cursor-default text-white">
+                <Mail className="w-4 h-4 text-white" />
+                <span className="font-bold text-[14px]">{siteContent?.contactEmail || "ndproperties.buisness@gmail.com"}</span>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
 
         {/* Search Bar Block */}
         <motion.div 
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.6 }}
-          className="w-full max-w-4xl mx-auto mt-16 px-4"
+          transition={{ delay: 0.6, duration: 0.6 }}
+          className="w-full max-w-4xl mx-auto mt-12 px-4 relative z-10"
           id="hero-search-wrapper"
         >
           <form 
             onSubmit={handleSearchSubmit}
-            className="bg-white/50 backdrop-blur-2xl border border-white/60 p-3 rounded-2xl flex flex-col md:flex-row gap-3 shadow-xl"
+            className="bg-white/10 backdrop-blur-md border border-white/20 p-3 rounded-2xl flex flex-col md:flex-row gap-3 shadow-2xl text-white"
             id="search-form"
           >
             {/* Location Field */}
-            <div className="flex-1 flex items-center px-4 py-3 gap-3 border-b md:border-b-0 md:border-r border-gray-100">
-              <MapPin className="w-5 h-5 text-gray-400 shrink-0" />
+            <div className="flex-1 flex items-center px-4 py-3 gap-3 border-b md:border-b-0 md:border-r border-white/10">
+              <MapPin className="w-5 h-5 text-white/50 shrink-0" />
               <input 
                 type="text" 
                 placeholder="Desired Location"
                 value={searchLocation}
                 onChange={(e) => setSearchLocation(e.target.value)}
-                className="bg-transparent border-none focus:ring-0 w-full placeholder:text-gray-400 font-semibold text-black outline-none text-[14px]"
+                className="bg-transparent border-none focus:ring-0 w-full placeholder:text-white/40 font-semibold text-white outline-none text-[14px]"
               />
             </div>
 
             {/* Property Type Field */}
-            <div className="flex-1 flex items-center px-4 py-3 gap-3 border-b md:border-b-0 md:border-r border-gray-100">
-              <Building className="w-5 h-5 text-gray-400 shrink-0" />
+            <div className="flex-1 flex items-center px-4 py-3 gap-3 border-b md:border-b-0 md:border-r border-white/10">
+              <Building className="w-5 h-5 text-white/50 shrink-0" />
               <select 
                 value={searchType}
                 onChange={(e) => setSearchType(e.target.value)}
-                className="bg-transparent border-none focus:ring-0 w-full text-gray-700 font-semibold outline-none text-[14px] appearance-none cursor-pointer"
+                className="bg-transparent border-none focus:ring-0 w-full text-white font-semibold outline-none text-[14px] appearance-none cursor-pointer"
               >
-                <option value="">Property Type</option>
-                <option value="Glass Villa">Glass Villa</option>
-                <option value="Penthouse">Minimalist Penthouse</option>
-                <option value="Loft">Atmospheric Loft</option>
-                <option value="Estate">Luxury Estate</option>
+                <option value="" className="text-black">Property Type</option>
+                <option value="Glass Villa" className="text-black">Glass Villa</option>
+                <option value="Penthouse" className="text-black">Minimalist Penthouse</option>
+                <option value="Loft" className="text-black">Atmospheric Loft</option>
+                <option value="Estate" className="text-black">Luxury Estate</option>
               </select>
             </div>
 
             {/* Price Range Field */}
             <div className="flex-1 flex items-center px-4 py-3 gap-3">
-              <IndianRupee className="w-5 h-5 text-gray-400 shrink-0" />
+              <IndianRupee className="w-5 h-5 text-white/50 shrink-0" />
               <select 
                 value={searchPrice}
                 onChange={(e) => setSearchPrice(e.target.value)}
-                className="bg-transparent border-none focus:ring-0 w-full text-gray-700 font-semibold outline-none text-[14px] appearance-none cursor-pointer"
+                className="bg-transparent border-none focus:ring-0 w-full text-white font-semibold outline-none text-[14px] appearance-none cursor-pointer"
               >
-                <option value="">Price Range</option>
-                <option value="15-30">15 - 30 lakhs</option>
-                <option value="30-60">30 - 60 lakhs</option>
-                <option value="60-1.5">60 lakhs - 1.5 cr</option>
+                <option value="" className="text-black">Price Range</option>
+                <option value="15-30" className="text-black">15 - 30 lakhs</option>
+                <option value="30-60" className="text-black">30 - 60 lakhs</option>
+                <option value="60-1.5" className="text-black">60 lakhs - 1.5 cr</option>
               </select>
             </div>
 
             {/* Search Submit Button */}
             <button 
               type="submit"
-              className="bg-black text-white hover:bg-gray-800 transition-colors px-8 py-3.5 rounded-xl font-bold text-[15px] flex items-center justify-center gap-2 outline-none group active:scale-[0.98]"
+              className="bg-white text-black hover:bg-gray-100 transition-colors px-8 py-3.5 rounded-xl font-bold text-[15px] flex items-center justify-center gap-2 outline-none group active:scale-[0.98]"
               id="search-submit-btn"
             >
-              <Search className="w-4 h-4" />
+              <Search className="w-4 h-4 text-black" />
               <span>Search</span>
             </button>
           </form>

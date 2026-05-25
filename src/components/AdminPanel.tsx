@@ -421,23 +421,23 @@ export default function AdminPanel({
           </div>
         </div>
         
-        <div className="flex items-center gap-4">
-          <div className="flex bg-gray-50 border border-gray-150 p-1 rounded-lg">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-4 w-full sm:w-auto">
+          <div className="flex bg-gray-50 border border-gray-150 p-1 rounded-lg w-full sm:w-auto overflow-x-auto">
             <button 
               onClick={() => setAdminTab('content')}
-              className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${adminTab === 'content' ? 'bg-black text-white' : 'text-gray-500 hover:text-black'}`}
+              className={`flex-1 sm:flex-none text-center px-3 sm:px-4 py-1.5 text-xs font-bold rounded-md transition-all whitespace-nowrap ${adminTab === 'content' ? 'bg-black text-white' : 'text-gray-500 hover:text-black'}`}
             >
               Edit Copy
             </button>
             <button 
               onClick={() => setAdminTab('listings')}
-              className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${adminTab === 'listings' ? 'bg-black text-white' : 'text-gray-500 hover:text-black'}`}
+              className={`flex-1 sm:flex-none text-center px-3 sm:px-4 py-1.5 text-xs font-bold rounded-md transition-all whitespace-nowrap ${adminTab === 'listings' ? 'bg-black text-white' : 'text-gray-500 hover:text-black'}`}
             >
               Listings CRUD
             </button>
             <button 
               onClick={() => setAdminTab('bookings')}
-              className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${adminTab === 'bookings' ? 'bg-black text-white' : 'text-gray-500 hover:text-black'}`}
+              className={`flex-1 sm:flex-none text-center px-3 sm:px-4 py-1.5 text-xs font-bold rounded-md transition-all whitespace-nowrap ${adminTab === 'bookings' ? 'bg-black text-white' : 'text-gray-500 hover:text-black'}`}
             >
               Bookings ({bookings.length})
             </button>
@@ -445,7 +445,7 @@ export default function AdminPanel({
 
           <button 
             onClick={handleLogout}
-            className="p-2.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg transition-colors"
+            className="p-2.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg transition-colors ml-auto sm:ml-0"
             title="Sign Out Console"
           >
             <LogOut className="w-4 h-4" />
