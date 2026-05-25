@@ -69,7 +69,7 @@ export default function App() {
       .from('properties')
       .select('*')
       .order('createdAt', { ascending: false });
-    if (data && data.length > 0) {
+    if (data) {
       setProperties(data as Property[]);
     }
   }, []);

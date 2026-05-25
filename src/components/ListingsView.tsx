@@ -199,19 +199,19 @@ export default function ListingsView({ properties, onSelectProperty, passedFilte
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
             
-            {/* LARGE FEATURED CARD (The Zenith Pavilion) - Render if it exists / filters allow */}
-            {filteredProperties.some(p => p.id === 'zenith-pavilion') && (() => {
-              const zenithProp = properties.find(p => p.id === 'zenith-pavilion')!;
+            {/* LARGE FEATURED CARD (First Property) */}
+            {filteredProperties.length > 0 && (() => {
+              const bannerProp = filteredProperties[0];
               return (
                 <div 
-                  onClick={() => onSelectProperty(zenithProp)}
+                  onClick={() => onSelectProperty(bannerProp)}
                   className="md:col-span-8 group relative overflow-hidden rounded-2xl h-[600px] border border-white/60 bg-white/40 shadow-sm cursor-pointer transition-all duration-500"
-                  id="listings-featured-pavilion-card"
+                  id={`listings-featured-pavilion-card-${bannerProp.id}`}
                 >
                   <img 
-                    alt="Modern Minimalist Villa Zenith Pavilion" 
+                    alt={bannerProp.title} 
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaIw5kDV4aGh6ghEG48XXZvbdBqf1E118dAmuCa_4A8pjReeTmVvVPFb840l5GTPDbzlhs8pyRCVtB4BaWsxu0EWBscn9qznU0mhyPV7hhc-PaOk2u2pWtvhk5xJT8zrVA7KqV22l7bzJNC-j2VGShlGrJ5N4d2SVFuWg9W21V_MJpKteokjwaGm7HX2zGnJTAbdd9RqY89TOtiDYSMEHnyhiqdgfrQNCqLl32IHNjNutGaTn9V0fl5UTefTVMubLYZrrc0-pt-cA"
+                    src={bannerProp.image}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-90" />
                   
@@ -220,17 +220,17 @@ export default function ListingsView({ properties, onSelectProperty, passedFilte
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
                       <div>
                         <span className="inline-block bg-black text-white text-[10px] font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-widest">
-                          Featured Sale
+                          {bannerProp.type === 'sale' ? 'Featured Sale' : 'Featured Lease'}
                         </span>
-                        <h3 className="text-3xl font-bold tracking-tight">{zenithProp.title}</h3>
+                        <h3 className="text-3xl font-bold tracking-tight">{bannerProp.title}</h3>
                         <p className="text-[13px] text-gray-200/80 mt-1.5 flex items-center gap-1.5 font-bold">
                           <MapPin className="w-3.5 h-3.5 text-white/70" />
-                          {zenithProp.location}
+                          {bannerProp.location}
                         </p>
                       </div>
                       <div className="md:text-right">
-                        <p className="text-2xl font-bold text-white">{zenithProp.price}</p>
-                        <p className="text-[11px] font-bold tracking-widest text-[#cfc4c5] mt-1">{zenithProp.beds} BEDS / {zenithProp.baths} BATHS</p>
+                        <p className="text-2xl font-bold text-white">{bannerProp.price}</p>
+                        <p className="text-[11px] font-bold tracking-widest text-[#cfc4c5] mt-1">{bannerProp.beds} BEDS / {bannerProp.baths} BATHS</p>
                       </div>
                     </div>
                   </div>
@@ -238,31 +238,29 @@ export default function ListingsView({ properties, onSelectProperty, passedFilte
               );
             })()}
 
-            {/* SIDE CARD 1: Azure Beach Condo - Render if filters allow */}
-            {filteredProperties.some(p => p.id === 'azure-loft') && (() => {
-              const azureProp = properties.find(p => p.id === 'azure-loft')!;
+            {/* SIDE CARD 1: Second Property */}
+            {filteredProperties.length > 1 && (() => {
+              const sideProp = filteredProperties[1];
               return (
                 <div 
-                  onClick={() => onSelectProperty(azureProp)}
-                  className={`group relative overflow-hidden rounded-2xl h-[600px] border border-white/60 bg-white/40 shadow-sm cursor-pointer transition-all duration-500 ${
-                    !filteredProperties.some(p => p.id === 'zenith-pavilion') ? 'md:col-span-12' : 'md:col-span-4'
-                  }`}
-                  id="listings-azure-loft-card"
+                  onClick={() => onSelectProperty(sideProp)}
+                  className="md:col-span-4 group relative overflow-hidden rounded-2xl h-[600px] border border-white/60 bg-white/40 shadow-sm cursor-pointer transition-all duration-500"
+                  id={`listings-side-card-${sideProp.id}`}
                 >
                   <img 
-                    alt="Oceanfront Luxury Condo Azure Loft" 
+                    alt={sideProp.title} 
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDQcl5xC7HE5Mz5Bh5ARCvOQ_HqD1vJmww9JddLbjg2wI8eCtXmlpgaxUv1VkUDFQy1rVQX1XpNXETzmd758IhCZxdpHbo6nqNzoe5TrjL5XQbJi9lJ_U9UFmq1-sRVROApNEagl9Sk8tsohfFZbd-tysA52wDouedUnVI6OcCBG1ozF2qov1oYOsxbYcWOEkI5JEhtFttkcJXG-U3rr-ahrVmjIXcCGXEDM0447jL_m1Zq2pP648RNC9CXknTAr7fbka917TRs5E"
+                    src={sideProp.image}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-90" />
                   
                   {/* Floating bottom box */}
                   <div className="absolute bottom-6 left-6 right-6 bg-white/20 backdrop-blur-md p-6 rounded-xl border border-white/30 text-white">
                     <span className="inline-block bg-white/20 backdrop-blur-md border border-white/30 text-white text-[10px] font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-widest">
-                      {azureProp.type === 'sale' ? 'For Sale' : 'For Lease'}
+                      {sideProp.type === 'sale' ? 'For Sale' : 'For Lease'}
                     </span>
-                    <h3 className="text-xl font-bold tracking-tight">{azureProp.title}</h3>
-                    <p className="text-[14px] text-gray-100 font-bold mt-1">{azureProp.price}</p>
+                    <h3 className="text-xl font-bold tracking-tight">{sideProp.title}</h3>
+                    <p className="text-[14px] text-gray-100 font-bold mt-1">{sideProp.price}</p>
                     
                     {/* Amenity Status Icons */}
                     <div className="mt-4 pt-4 border-t border-white/25 flex justify-between text-white/75">
@@ -281,33 +279,35 @@ export default function ListingsView({ properties, onSelectProperty, passedFilte
               );
             })()}
 
-            {/* LOWER PORTFOLIO GRID: cols-4 for standard cards, listing out other remaining elements in a clean structure */}
-            <div className="md:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-              {filteredProperties.filter(p => p.id !== 'zenith-pavilion' && p.id !== 'azure-loft').map(p => (
-                <div
-                  key={p.id}
-                  onClick={() => onSelectProperty(p)}
-                  className="group relative h-[400px] overflow-hidden rounded-2xl border border-white/60 bg-white/40 shadow-sm cursor-pointer transition-all duration-500 hover:-translate-y-2"
-                  id={`listings-curated-card-${p.id}`}
-                >
-                  <img 
-                    alt={p.title} 
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
-                    src={p.image} 
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-90" />
-                  
-                  {/* Detailed plate */}
-                  <div className="absolute bottom-6 left-6 right-6 bg-white/20 backdrop-blur-md p-5 rounded-xl border border-white/30 text-white">
-                    <h3 className="font-bold text-lg tracking-tight mb-1">{p.title}</h3>
-                    <div className="flex justify-between items-center text-[13px] text-gray-200 font-bold">
-                      <span>{p.location}</span>
-                      <span className="text-[#b9c7e0] font-extrabold">{p.price}</span>
+            {/* LOWER PORTFOLIO GRID: remaining elements */}
+            {filteredProperties.length > 2 && (
+              <div className="md:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+                {filteredProperties.slice(2).map(p => (
+                  <div
+                    key={p.id}
+                    onClick={() => onSelectProperty(p)}
+                    className="group relative h-[400px] overflow-hidden rounded-2xl border border-white/60 bg-white/40 shadow-sm cursor-pointer transition-all duration-500 hover:-translate-y-2"
+                    id={`listings-curated-card-${p.id}`}
+                  >
+                    <img 
+                      alt={p.title} 
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
+                      src={p.image} 
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-90" />
+                    
+                    {/* Detailed plate */}
+                    <div className="absolute bottom-6 left-6 right-6 bg-white/20 backdrop-blur-md p-5 rounded-xl border border-white/30 text-white">
+                      <h3 className="font-bold text-lg tracking-tight mb-1">{p.title}</h3>
+                      <div className="flex justify-between items-center text-[13px] text-gray-200 font-bold">
+                        <span>{p.location}</span>
+                        <span className="text-[#b9c7e0] font-extrabold">{p.price}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
 
           </div>
         )}

@@ -15,11 +15,12 @@ export default function HomeView({ onNavigateToListings, onSelectProperty, prope
   const [searchType, setSearchType] = React.useState('');
   const [searchPrice, setSearchPrice] = React.useState('');
 
-  // Extract featured properties for the horizontal curation cards on Home page
-  // We specific show: Refraction House (id: refraction-house), Aether Penthouse (id: aether-penthouse), Liquid Horizon (id: liquid-horizon)
-  const homeCatalog = properties.filter(p => 
-    p.id === 'refraction-house' || p.id === 'aether-penthouse' || p.id === 'liquid-horizon'
-  );
+  // Extract featured properties for the horizontal curation cards on Home page dynamically
+  // If fewer than 3 are marked as featured, fallback to the first available properties
+  const featuredProps = properties.filter(p => p.featured);
+  const homeCatalog = featuredProps.length >= 3 
+    ? featuredProps.slice(0, 3) 
+    : [...featuredProps, ...properties.filter(p => !p.featured)].slice(0, 3);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
