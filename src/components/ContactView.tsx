@@ -42,7 +42,7 @@ export default function ContactView({ inquiries, onAddInquiry, bookings, siteCon
   return (
     <div id="contact-view-container" className="space-y-20 w-full px-6 md:px-20 pt-32 pb-20 bg-cover bg-top overflow-hidden border-none shadow-none" style={{
       backgroundImage: "url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1600&q=80')",
-      animation: 'slowMove 45s linear infinite'
+      animation: 'slowMove 225s linear infinite'
     }}>
       
       {/* Inline styles for the slow moving background effect */}

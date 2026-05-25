@@ -80,22 +80,35 @@ export default function ListingsView({ properties, onSelectProperty, passedFilte
   });
 
   return (
-    <div id="listings-view-container" className="space-y-24">
+    <div id="listings-view-container" className="space-y-20">
       
-      {/* 1. Header Hero section */}
-      <section className="max-w-4xl">
-        <span className="text-[11px] font-bold tracking-[0.2em] text-gray-500 uppercase block mb-3">
-          Curated for Bengalis
-        </span>
-        <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-black leading-tight mb-6" id="listings-hero-title">
-          Get to own your own home
-        </h1>
-        <p className="text-gray-500 font-semibold text-[16px] md:text-[18px] leading-relaxed max-w-2xl" id="listings-hero-subtitle">
-          Make your dream come true with our selection of architectural masterpieces designed for the visionary. Our portfolio features exclusive properties that redefine living.
-        </p>
+      {/* 1. Header Hero section with Property Background and Liquid Glass block */}
+      <section className="relative min-h-[50vh] w-full flex flex-col justify-center pt-32 pb-16 overflow-hidden border-none bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80')" }}>
+        
+        {/* Dark/blue overlay to ensure text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-950/40 via-black/45 to-black/65 z-0" />
+        
+        <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto px-6 w-full">
+          {/* Liquid Glass Wrapper */}
+          <div className="bg-white/10 backdrop-blur-md border border-white/20 p-8 md:p-12 rounded-3xl shadow-2xl w-full space-y-4 text-white">
+            <span className="text-[11px] font-bold tracking-[0.2em] text-gray-200 uppercase block">
+              Curated for Bengalis
+            </span>
+            <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight leading-tight text-white" id="listings-hero-title">
+              Get to own your own home
+            </h1>
+            <p className="text-gray-150 font-semibold text-[15px] md:text-[17px] max-w-2xl mx-auto leading-relaxed" id="listings-hero-subtitle">
+              Make your dream come true with our selection of architectural masterpieces designed for the visionary. Our portfolio features exclusive properties that redefine living.
+            </p>
+          </div>
+        </div>
+      </section>
 
+      {/* Constraints container for filters and grid */}
+      <div className="max-w-7xl mx-auto px-6 md:px-20 space-y-16">
+        
         {/* Dynamic Filters Row */}
-        <div className="mt-12 flex flex-wrap gap-4" id="listings-filters-row">
+        <div className="flex flex-wrap gap-4" id="listings-filters-row">
           {/* reset / all filter */}
           <button 
             onClick={() => {
@@ -179,7 +192,6 @@ export default function ListingsView({ properties, onSelectProperty, passedFilte
             )}
           </div>
         </div>
-      </section>
 
       {/* 2. Structured Bento Grid of Properties */}
       <section className="space-y-6" id="bento-grid-root">
@@ -365,6 +377,7 @@ export default function ListingsView({ properties, onSelectProperty, passedFilte
         </AnimatePresence>
       </section>
 
+      </div>
     </div>
   );
 }

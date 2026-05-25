@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ShieldCheck, Eye, Compass, Leaf, Landmark, Sparkles, Award, Scale, BookOpen } from 'lucide-react';
+import { ShieldCheck, Eye, Compass, Leaf, Landmark, Sparkles, Award, Scale, BookOpen, MapPin, FileText, Car, Check } from 'lucide-react';
 
 interface AboutViewProps {
   siteContent?: any;
@@ -10,33 +10,33 @@ export default function AboutView({ siteContent }: AboutViewProps) {
   const steps = [
     {
       num: '01',
-      title: 'Title Integrity & Legal Verification',
-      desc: 'Ensuring absolute, undisputed title safety and immediate escrow clearance across international jurisdictions.',
-      icon: <Scale className="w-5 h-5 text-black" />
+      title: 'Paper Verification',
+      desc: 'Thorough verification of all ownership papers, deed title clearances, and building plan approvals.',
+      icon: <FileText className="w-5 h-5 text-black" />
     },
     {
       num: '02',
-      title: 'Structural Engineering Audit',
-      desc: 'Inspection of framing parameters, material density, and structural integrity by senior architects.',
-      icon: <Award className="w-5 h-5 text-black" />
+      title: 'Locality & Distance',
+      desc: 'Assessing proximity to essential amenities like hospitals, schools, colleges, and grocery stores.',
+      icon: <MapPin className="w-5 h-5 text-black" />
     },
     {
       num: '03',
-      title: 'Energy Footprint Certification',
-      desc: 'Rating of sustainable heat preservation, active glass insulation levels, and building safety.',
-      icon: <Leaf className="w-5 h-5 text-black" />
+      title: 'Utility & Parking Check',
+      desc: 'Ensuring proper parking spacing, electricity backup, water supply, and building structure stability.',
+      icon: <Car className="w-5 h-5 text-black" />
     },
     {
       num: '04',
-      title: 'Prestige & Aesthetic Filter',
-      desc: 'Evaluating integration into natural landscape, daylight orientation, and micro-climate wind circulation.',
-      icon: <Compass className="w-5 h-5 text-black" />
+      title: 'On-Site Verification',
+      desc: 'In-person physical inspection of construction quality, layout, ventilation, and surroundings.',
+      icon: <Eye className="w-5 h-5 text-black" />
     },
     {
       num: '05',
-      title: 'Protected Transactions Secure Escrow',
-      desc: 'Facilitating secure, compliant escrow transfers via highly vetted legal institutions globally.',
-      icon: <Landmark className="w-5 h-5 text-black" />
+      title: 'Official Listing',
+      desc: 'Approved properties are photographed, cataloged, and uploaded to our official website.',
+      icon: <Check className="w-5 h-5 text-black" />
     }
   ];
 
@@ -47,29 +47,29 @@ export default function AboutView({ siteContent }: AboutViewProps) {
       <section className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
         <div className="space-y-8">
           <div>
-            <span className="text-[12px] font-bold tracking-[0.25em] text-gray-500 uppercase block mb-3">BRAND ARCHITECTURE</span>
+            <span className="text-[12px] font-bold tracking-[0.25em] text-gray-500 uppercase block mb-3">COMPANY PORTFOLIO</span>
             <h1 
               className="text-4xl md:text-5xl font-bold text-black tracking-tight leading-tight" 
               id="about-mission-title"
-              dangerouslySetInnerHTML={{ __html: siteContent?.aboutTitle ? siteContent.aboutTitle.replace(/\n/g, '<br />') : 'A curated luxury <br />real estate consultancy' }}
+              dangerouslySetInnerHTML={{ __html: siteContent?.aboutTitle ? siteContent.aboutTitle.replace(/\n/g, '<br />') : 'We are a premium property <br />listing company' }}
             />
           </div>
           <p className="text-gray-500 font-semibold text-[16px] md:text-[18px] leading-relaxed" id="about-mission-desc">
-            {siteContent?.aboutText || "Offering premium minimalist spaces tailored with a rigorous five-step verification protocol. We operate strictly as an advisory partner, representing clients who view their residence not just as shelter, but as a fine art asset."}
+            {siteContent?.aboutText || "We believe that a good home is for everyone and everyone should own it. We list and verify every property with a strict five-step verification protocol to ensure it is safe, high-quality, and structurally sound for families and premium buyers in Kolkata."}
           </p>
 
           <div className="flex gap-10 border-t border-gray-100 pt-8">
             <div className="space-y-1">
-              <span className="block text-2xl font-bold text-black">98.4%</span>
-              <span className="block font-bold text-[11px] text-gray-400 uppercase tracking-widest">Client Retention</span>
+              <span className="block text-2xl font-bold text-black">320+</span>
+              <span className="block font-bold text-[11px] text-gray-400 uppercase tracking-widest">Properties Sold</span>
             </div>
             <div className="space-y-1">
-              <span className="block text-2xl font-bold text-black">100%</span>
-              <span className="block font-bold text-[11px] text-gray-400 uppercase tracking-widest">Pre-Vetted Assets</span>
+              <span className="block text-2xl font-bold text-black">98%</span>
+              <span className="block font-bold text-[11px] text-gray-400 uppercase tracking-widest">Satisfied Clients</span>
             </div>
             <div className="space-y-1">
-              <span className="block text-2xl font-bold text-black">24h</span>
-              <span className="block font-bold text-[11px] text-gray-400 uppercase tracking-widest">Concierge Intake</span>
+              <span className="block text-2xl font-bold text-black">5 Steps</span>
+              <span className="block font-bold text-[11px] text-gray-400 uppercase tracking-widest">Verification</span>
             </div>
           </div>
         </div>
@@ -80,7 +80,7 @@ export default function AboutView({ siteContent }: AboutViewProps) {
           <img 
             alt="Minimalist Architecture Masterpiece" 
             className="w-full h-[450px] object-cover transition-transform duration-1000 group-hover:scale-105"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAj4M2DP_wOGpxIGpOLl3LO21i7VRqAMMdaGKz2FY5rNN2ce0BvVOPSsX6uBnFjIVuFk5P5MD7AnZHovRawxbjPDIj6mFyCbcKkDUBoaR4uSdh5rhMyXdoWnI4AaKVhpNAu5QAm9-E4JV9xWDpJ9M1JcqMV5OtiZjEvK9aRqZ5Wa4EAn65EoRk2IrRj-s8HyJI9TFlMRJJjyFJ559Az7dkDWjJvyK56wJJ_f0BBaIgmUTuUa6xsp1nT8O4naGBJP-675NYBho521bA"
+            src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80"
           />
         </div>
       </section>
@@ -90,10 +90,10 @@ export default function AboutView({ siteContent }: AboutViewProps) {
         <div className="text-center max-w-2xl mx-auto space-y-4">
           <span className="text-[12px] font-bold tracking-[0.25em] text-gray-400 uppercase block mb-1">QUALITY STANDARD</span>
           <h2 className="text-3xl md:text-4xl font-bold text-black tracking-tight" id="protocol-header">
-            The Five-Step Verification Protocol
+            How We List & Verify Properties
           </h2>
           <p className="text-gray-500 font-semibold text-[15px] leading-relaxed">
-            Every estate listed with ND Properties has passed our legendary inspection protocol, defining standard-setting safety, engineering, and prestige metrics.
+            Every property listed with ND Properties has passed our rigorous quality checks, ensuring setting safety, structure, and amenities.
           </p>
         </div>
 
@@ -136,7 +136,7 @@ export default function AboutView({ siteContent }: AboutViewProps) {
         <div className="max-w-2xl space-y-6">
           <BookOpen className="w-8 h-8 text-black/20 mx-auto" />
           <blockquote className="text-xl md:text-2xl font-light italic text-gray-700 tracking-tight leading-relaxed">
-            "A home is not simply glass and steel. It is an extension of future memories, a sanctuary designed to make your dream come true."
+            "Owning a home is a dream for everyone, and we believe that a good home is for everyone. Let us help you find the property where your dream comes true."
           </blockquote>
           <cite className="block text-[12px] font-bold tracking-widest text-[#cfc4c5] uppercase not-italic">
             — ND Properties Philosophy Division

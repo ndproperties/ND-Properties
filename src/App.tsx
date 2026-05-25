@@ -285,7 +285,7 @@ export default function App() {
 
       {/* Main View Wrapper */}
       <main className={`pb-20 w-full relative z-10 min-h-[70vh] ${
-        activeTab === 'home' || activeTab === 'contact' 
+        activeTab === 'home' || activeTab === 'contact' || activeTab === 'listings'
           ? 'pt-0 max-w-none px-0' 
           : 'pt-32 max-w-7xl mx-auto px-6 md:px-20'
       }`}>
