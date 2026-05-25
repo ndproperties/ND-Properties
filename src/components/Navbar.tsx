@@ -19,7 +19,7 @@ export default function Navbar({ activeTab, setActiveTab, onBookClick }: NavbarP
   ];
 
   return (
-    <header className="fixed top-0 w-full z-50 border-b border-white/60 bg-white/40 dark:bg-black/40 backdrop-blur-[32px] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2)]">
+    <header className="fixed top-0 w-full z-50 bg-white/40 dark:bg-black/40 backdrop-blur-[32px] border-none shadow-none">
       <div className="flex justify-between items-center w-full px-6 md:px-20 py-4 max-w-7xl mx-auto">
         
         {/* Logo and Branding */}

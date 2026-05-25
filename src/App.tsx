@@ -284,7 +284,11 @@ export default function App() {
       />
 
       {/* Main View Wrapper */}
-      <main className="pt-32 pb-20 w-full max-w-7xl mx-auto px-6 md:px-20 relative z-10 min-h-[70vh]">
+      <main className={`pb-20 w-full relative z-10 min-h-[70vh] ${
+        activeTab === 'home' || activeTab === 'contact' 
+          ? 'pt-0 max-w-none px-0' 
+          : 'pt-32 max-w-7xl mx-auto px-6 md:px-20'
+      }`}>
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}

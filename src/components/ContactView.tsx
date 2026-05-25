@@ -40,7 +40,7 @@ export default function ContactView({ inquiries, onAddInquiry, bookings, siteCon
   };
 
   return (
-    <div id="contact-view-container" className="space-y-20 w-screen relative left-1/2 -translate-x-1/2 px-6 md:px-20 py-20 bg-cover bg-center overflow-hidden border-y border-white/40 shadow-2xl" style={{
+    <div id="contact-view-container" className="space-y-20 w-full px-6 md:px-20 pt-32 pb-20 bg-cover bg-top overflow-hidden border-none shadow-none" style={{
       backgroundImage: "url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1600&q=80')",
       animation: 'slowMove 45s linear infinite'
     }}>
@@ -57,24 +57,83 @@ export default function ContactView({ inquiries, onAddInquiry, bookings, siteCon
       {/* Dark/blue overlay to ensure text readability */}
       <div className="absolute inset-0 bg-gradient-to-b from-blue-950/40 via-black/45 to-black/65 z-0" />
       
-      <div className="relative z-10 max-w-6xl mx-auto w-full space-y-20">
+      <div className="relative z-10 max-w-6xl mx-auto w-full space-y-16">
         
-        {/* Centered Top Form block inside Liquid Glass */}
-        <section className="max-w-2xl mx-auto space-y-10">
-          <div className="text-center space-y-4">
-            <span className="text-[11px] font-bold tracking-[0.25em] text-white/60 uppercase block mb-1">
-              GET IN TOUCH
-            </span>
-            <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-none" id="contact-form-title">
-              Get in Touch
-            </h1>
-            <p className="text-gray-100 font-semibold text-[15px] max-w-sm mx-auto leading-relaxed">
-              We are a premium property listing firm based in Kolkata. Let us help you find the home of your dreams.
-            </p>
+        {/* Top Section Header: Representative Contact */}
+        <section className="max-w-2xl mx-auto space-y-4 text-center">
+          <span className="text-[11px] font-bold tracking-[0.25em] text-white/60 uppercase block mb-1">
+            OUR REPRESENTATIVE
+          </span>
+          <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-none">
+            Give a call to our representative
+          </h1>
+          <p className="text-gray-100 font-semibold text-[15px] max-w-sm mx-auto leading-relaxed">
+            Get in touch directly with our advisory partner and onsite team.
+          </p>
+        </section>
+
+        {/* 1. Contact Columns (Quick Call Info) Rendered ABOVE the Form */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left" id="contact-utility-info">
+          
+          <a 
+            href={`tel:${siteContent?.contactPhone || "9748158051"}`}
+            className="space-y-3 bg-white/10 border border-white/20 p-6 rounded-2xl shadow-xl backdrop-blur-md text-white hover:bg-white/15 transition-all block group animate-fade-in"
+          >
+            <div className="w-10 h-10 bg-white/20 text-white mx-auto md:mx-0 flex items-center justify-center rounded-lg group-hover:scale-105 transition-transform">
+              <Phone className="w-5 h-5" />
+            </div>
+            <h4 className="font-extrabold text-[15px] tracking-tight">Give a call to our representative</h4>
+            <p className="text-white font-bold text-[14px]">{siteContent?.contactPhone || "9748158051"}</p>
+            <p className="text-white/60 text-[11px] font-bold">Daily 10:00 AM to 12:00 PM</p>
+          </a>
+
+          <div className="space-y-3 bg-white/10 border border-white/20 p-6 rounded-2xl shadow-xl backdrop-blur-md text-white block">
+            <div className="w-10 h-10 bg-white/20 text-white mx-auto md:mx-0 flex items-center justify-center rounded-lg">
+              <Mail className="w-5 h-5" />
+            </div>
+            <h4 className="font-extrabold text-[15px] tracking-tight">Email Addresses</h4>
+            <a href={`mailto:${siteContent?.contactEmail || "ndproperties.buisness@gmail.com"}`} className="block text-white font-bold text-[14px] hover:underline truncate">
+              {siteContent?.contactEmail || "ndproperties.buisness@gmail.com"}
+            </a>
+            <a href="mailto:contact@ndproperties.in" className="block text-white font-bold text-[14px] hover:underline truncate">
+              contact@ndproperties.in
+            </a>
+            <p className="text-white/60 text-[11px] font-bold">Response within 15 Minutes</p>
           </div>
 
+          <a 
+            href="https://maps.google.com/?q=Acropolis+Mall+Kolkata"
+            target="_blank"
+            rel="noreferrer"
+            className="space-y-3 bg-white/10 border border-white/20 p-6 rounded-2xl shadow-xl backdrop-blur-md text-white hover:bg-white/15 transition-all block group"
+          >
+            <div className="w-10 h-10 bg-white/20 text-white mx-auto md:mx-0 flex items-center justify-center rounded-lg group-hover:scale-105 transition-transform">
+              <MapPin className="w-5 h-5" />
+            </div>
+            <h4 className="font-extrabold text-[15px] tracking-tight">Office Location</h4>
+            <p className="text-white font-bold text-[14px]">Kolkata, Acropolis</p>
+            <p className="text-white/60 text-[11px] font-bold">You can visit us there.</p>
+          </a>
+          
+        </section>
+
+        {/* Centered Form Header block */}
+        <section className="max-w-2xl mx-auto space-y-4 text-center">
+          <span className="text-[11px] font-bold tracking-[0.25em] text-white/60 uppercase block mb-1">
+            GET IN TOUCH
+          </span>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-none" id="contact-form-title">
+            Get in touch
+          </h2>
+          <p className="text-gray-100 font-semibold text-[14px] max-w-md mx-auto leading-relaxed">
+            Send your full name, email address, and describe your project below.
+          </p>
+        </section>
+
+        {/* 2. Contact Input Form (Rendered BELOW the Columns) */}
+        <section className="max-w-2xl mx-auto space-y-10">
           {/* Liquid Glass form */}
-          <div className="bg-white/10 border border-white/20 p-8 md:p-12 rounded-3xl shadow-2xl backdrop-blur-md text-white">
+          <div className="bg-white/10 border border-white/20 p-8 md:p-12 rounded-3xl shadow-none backdrop-blur-md text-white">
             <AnimatePresence mode="wait">
               {success ? (
                 <motion.div 
@@ -154,51 +213,6 @@ export default function ContactView({ inquiries, onAddInquiry, bookings, siteCon
               )}
             </AnimatePresence>
           </div>
-        </section>
-
-        {/* Underneath: Quick contact columns in liquid glass */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left" id="contact-utility-info">
-          
-          <a 
-            href={`tel:${siteContent?.contactPhone || "9748158051"}`}
-            className="space-y-3 bg-white/10 border border-white/20 p-6 rounded-2xl shadow-xl backdrop-blur-md text-white hover:bg-white/15 transition-all block group"
-          >
-            <div className="w-10 h-10 bg-white/20 text-white mx-auto md:mx-0 flex items-center justify-center rounded-lg group-hover:scale-105 transition-transform">
-              <Phone className="w-5 h-5" />
-            </div>
-            <h4 className="font-extrabold text-[15px] tracking-tight">Give a call to your personal manager</h4>
-            <p className="text-white font-bold text-[14px]">{siteContent?.contactPhone || "9748158051"}</p>
-            <p className="text-white/60 text-[11px] font-bold">Daily 10:00 AM to 12:00 PM</p>
-          </a>
-
-          <div className="space-y-3 bg-white/10 border border-white/20 p-6 rounded-2xl shadow-xl backdrop-blur-md text-white block">
-            <div className="w-10 h-10 bg-white/20 text-white mx-auto md:mx-0 flex items-center justify-center rounded-lg">
-              <Mail className="w-5 h-5" />
-            </div>
-            <h4 className="font-extrabold text-[15px] tracking-tight">Email Addresses</h4>
-            <a href={`mailto:${siteContent?.contactEmail || "ndproperties.buisness@gmail.com"}`} className="block text-white font-bold text-[14px] hover:underline truncate">
-              {siteContent?.contactEmail || "ndproperties.buisness@gmail.com"}
-            </a>
-            <a href="mailto:contact@ndproperties.in" className="block text-white font-bold text-[14px] hover:underline truncate">
-              contact@ndproperties.in
-            </a>
-            <p className="text-white/60 text-[11px] font-bold">Response within 15 Minutes</p>
-          </div>
-
-          <a 
-            href="https://maps.google.com/?q=Acropolis+Mall+Kolkata"
-            target="_blank"
-            rel="noreferrer"
-            className="space-y-3 bg-white/10 border border-white/20 p-6 rounded-2xl shadow-xl backdrop-blur-md text-white hover:bg-white/15 transition-all block group"
-          >
-            <div className="w-10 h-10 bg-white/20 text-white mx-auto md:mx-0 flex items-center justify-center rounded-lg group-hover:scale-105 transition-transform">
-              <MapPin className="w-5 h-5" />
-            </div>
-            <h4 className="font-extrabold text-[15px] tracking-tight">Office Location</h4>
-            <p className="text-white font-bold text-[14px]">Kolkata, Acropolis</p>
-            <p className="text-white/60 text-[11px] font-bold">You can visit us there.</p>
-          </a>
-          
         </section>
 
         {/* Bookings / Meet Meetings list in liquid glass */}
