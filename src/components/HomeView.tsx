@@ -35,7 +35,7 @@ export default function HomeView({ onNavigateToListings, onSelectProperty, prope
     <div id="home-view-container" className="space-y-32">
       
       {/* 1. Hero Section with City Skyline Background */}
-      <section className="relative min-h-[85vh] flex flex-col justify-center pt-28 pb-16 rounded-3xl overflow-hidden shadow-2xl border border-white/40 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1600&q=80')" }}>
+      <section className="relative min-h-[85vh] w-screen left-1/2 -translate-x-1/2 flex flex-col justify-center pt-28 pb-16 overflow-hidden shadow-2xl border-y border-white/40 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1600&q=80')" }}>
         
         {/* Dark/blue overlay to ensure text readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-blue-950/40 via-black/40 to-black/60 z-0" />
@@ -77,14 +77,20 @@ export default function HomeView({ onNavigateToListings, onSelectProperty, prope
               className="flex flex-wrap justify-center gap-4 pt-2"
               id="hero-badges"
             >
-              <div className="flex items-center gap-2 bg-white/20 border border-white/30 backdrop-blur-md px-5 py-2.5 rounded-full shadow-sm hover:bg-white/30 transition-colors cursor-default text-white">
+              <a 
+                href={`tel:${siteContent?.contactPhone || "9748158051"}`}
+                className="flex items-center gap-2 bg-white/20 border border-white/30 backdrop-blur-md px-5 py-2.5 rounded-full shadow-sm hover:bg-white/40 transition-colors cursor-pointer text-white"
+              >
                 <Phone className="w-4 h-4 text-white" />
                 <span className="font-bold text-[14px]">{siteContent?.contactPhone || "9748158051"}</span>
-              </div>
-              <div className="flex items-center gap-2 bg-white/20 border border-white/30 backdrop-blur-md px-5 py-2.5 rounded-full shadow-sm hover:bg-white/30 transition-colors cursor-default text-white">
+              </a>
+              <a 
+                href={`mailto:${siteContent?.contactEmail || "ndproperties.buisness@gmail.com"}`}
+                className="flex items-center gap-2 bg-white/20 border border-white/30 backdrop-blur-md px-5 py-2.5 rounded-full shadow-sm hover:bg-white/40 transition-colors cursor-pointer text-white"
+              >
                 <Mail className="w-4 h-4 text-white" />
                 <span className="font-bold text-[14px]">{siteContent?.contactEmail || "ndproperties.buisness@gmail.com"}</span>
-              </div>
+              </a>
             </motion.div>
           </motion.div>
         </div>
