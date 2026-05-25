@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Phone, Mail, MapPin, Search, ArrowRight, Building, IndianRupee, Sparkles, FileText, Car, Eye, Check } from 'lucide-react';
 import { Property } from '../types';
 
