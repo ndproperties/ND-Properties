@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Phone, Mail, MapPin, Search, ArrowRight, Building, IndianRupee, Sparkles } from 'lucide-react';
+import { Phone, Mail, MapPin, Search, ArrowRight, Building, IndianRupee, Sparkles, FileText, Car, Eye, Check } from 'lucide-react';
 import { Property } from '../types';
 
 interface HomeViewProps {
@@ -176,7 +176,7 @@ export default function HomeView({ onNavigateToListings, onSelectProperty, prope
             className="text-black font-semibold border-b-2 border-black hover:opacity-75 transition-all py-0.5 text-[15px] flex items-center gap-1.5"
             id="view-portfolio-btn"
           >
-            <span>View Portfolio</span>
+            <span>View Listings</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
@@ -241,38 +241,107 @@ export default function HomeView({ onNavigateToListings, onSelectProperty, prope
                 Philosophical Standard
               </span>
               <h2 className="text-3xl md:text-4xl font-bold text-black tracking-tight leading-tight" id="philosophy-header">
-                Property as Art, <br />
-                Space for Your Future.
+                Owning a home is a <br />
+                dream for everyone.
               </h2>
             </div>
 
             <p className="text-gray-500 font-medium text-[15px] md:text-[16px] leading-relaxed" id="philosophy-description">
-              We believe everyone deserves to own their own home. Our philosophy transcends traditional real estate, creating environments where light and material converge. Every listing is selected with rigorous curation to ensure we make your dream come true.
+              We believe that a good home is for everyone and everyone should own it. While representing the gold standard of real estate advisory for our premium investors, we are equally committed to helping everyday families realize the joy of stepping into their own front door.
             </p>
 
             {/* Metrics column group */}
             <div className="flex gap-12 border-t border-gray-200/55 pt-8">
               <div>
-                <span className="block font-bold text-4xl text-black leading-none tracking-tighter">140+</span>
-                <span className="font-bold text-[11px] text-gray-400 uppercase tracking-widest block mt-2">Global Assets</span>
+                <span className="block font-bold text-4xl text-black leading-none tracking-tighter">320+</span>
+                <span className="font-bold text-[11px] text-gray-400 uppercase tracking-widest block mt-2">Properties Sold</span>
               </div>
               <div>
-                <span className="block font-bold text-4xl text-black leading-none tracking-tighter">$2B+</span>
-                <span className="font-bold text-[11px] text-gray-400 uppercase tracking-widest block mt-2">Portfolio Value</span>
+                <span className="block font-bold text-4xl text-black leading-none tracking-tighter">98%</span>
+                <span className="font-bold text-[11px] text-gray-400 uppercase tracking-widest block mt-2">Client Satisfaction</span>
               </div>
             </div>
           </div>
 
-          {/* Luxury Art Image representation */}
-          <div className="relative group overflow-hidden rounded-2xl shadow-xl" id="philosophy-image-container">
+          {/* New Apartment Image representation */}
+          <div className="relative group overflow-hidden rounded-2xl shadow-xl border border-gray-150 bg-white" id="philosophy-image-container">
             <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500 z-10" />
             <img 
-              alt="Modern architectural glass projection" 
-              className="w-full h-auto object-cover rounded-2xl transition-transform duration-1000 group-hover:scale-105" 
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpdUw7Oo3Tmog3P828TO-cQEYOMfCB5reB4idPJEO1EUkErt6bVu4xLMzQ63C-sjtWfHWzbL6asDH8kBDT-4qtzaVz9-EpCZE6Y6yukJA_DGHTYpS-oIYabHIXZwxnH5XSDY9HeaCRG14kzleMX6h_MH_IuX76bbPsQDl5QuTh43g4pc8p3d9b3AxTvHU-5XX4-TxIoRIN9NhRHS4jbZnsVT5TDxS0oKneDp__skr4zmtG6H5C0un7qzClUCmGFstwOJc3GPWEnmI"
+              alt="Premium modern apartment building structure" 
+              className="w-full h-[400px] object-cover rounded-2xl transition-transform duration-1000 group-hover:scale-105" 
+              src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80"
             />
           </div>
 
+        </div>
+      </section>
+
+      {/* 4. Flowchart / Owning Process Section */}
+      <section className="max-w-7xl mx-auto px-6 md:px-20 py-24 space-y-16">
+        <div className="text-center max-w-2xl mx-auto space-y-4">
+          <span className="text-[11px] font-bold tracking-[0.2em] text-gray-500 uppercase block">OUR PROCESS</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-black tracking-tight">How We list & Verify Properties</h2>
+          <p className="text-gray-500 font-medium text-[14px]">A rigorous, transparent process to ensure every property we list is secure, high-quality, and structurally sound.</p>
+        </div>
+
+        {/* 5-Step Flowchart Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-6 relative">
+          {/* Connector Line on Desktop */}
+          <div className="hidden md:block absolute top-[40px] left-[10%] right-[10%] h-[2px] bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 z-0" />
+
+          {[
+            {
+              step: "01",
+              title: "Paper Verification",
+              desc: "Thorough verification of all ownership papers, deed title clearances, and building plan approvals.",
+              icon: FileText
+            },
+            {
+              step: "02",
+              title: "Locality & Distance",
+              desc: "Assessing proximity to essential amenities like hospitals, schools, colleges, and grocery stores.",
+              icon: MapPin
+            },
+            {
+              step: "03",
+              title: "Utility & Parking Check",
+              desc: "Ensuring proper parking spacing, electricity backup, water supply, and building structure stability.",
+              icon: Car
+            },
+            {
+              step: "04",
+              title: "On-Site Verification",
+              desc: "In-person physical inspection of construction quality, layout, ventilation, and surroundings.",
+              icon: Eye
+            },
+            {
+              step: "05",
+              title: "Official Listing",
+              desc: "Approved properties are photographed, cataloged, and uploaded to our official website.",
+              icon: Check
+            }
+          ].map((item, idx) => {
+            const Icon = item.icon;
+            return (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: idx * 0.12 }}
+                className="bg-white border border-gray-150 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all relative z-10 space-y-4 flex flex-col items-center text-center group"
+              >
+                <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                  <Icon className="w-5 h-5" />
+                </div>
+                <div className="space-y-1">
+                  <span className="text-[10px] font-extrabold tracking-widest text-gray-400 uppercase">STEP {item.step}</span>
+                  <h4 className="font-bold text-black text-sm tracking-tight">{item.title}</h4>
+                </div>
+                <p className="text-gray-500 text-[11px] leading-relaxed flex-grow">{item.desc}</p>
+              </motion.div>
+            );
+          })}
         </div>
       </section>
 

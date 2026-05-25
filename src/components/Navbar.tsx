@@ -97,7 +97,24 @@ export default function Navbar({ activeTab, setActiveTab, onBookClick }: NavbarP
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
-        </div>
+      </div>
+    </div>
+
+      {/* Mobile Quick Navigation Bar */}
+      <div className="md:hidden flex overflow-x-auto gap-4 py-2 px-6 border-t border-white/20 bg-white/30 backdrop-blur-md scrollbar-none justify-center">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className={`text-xs font-bold py-1.5 px-4 rounded-full whitespace-nowrap transition-all ${
+              activeTab === tab.id 
+                ? 'bg-black text-white shadow-sm' 
+                : 'text-gray-600 bg-white/40 border border-gray-200/40'
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
       </div>
 
       {/* Mobile Drawer */}
