@@ -58,6 +58,10 @@ All code is located in the project directory [C:/Users/Dipanjan/.gemini/antigrav
 - Updated the CMS editor forms in [AdminPanel.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/AdminPanel.tsx) to label these fields as **Property Types** and **Price Ranges**.
 - Modified [dbSeeder.ts](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/lib/dbSeeder.ts) to populate these lists with default values. The client parses these lists dynamically to drive frontend dropdown menus and search inputs.
 
+### 10. Unique Constraint Duplicate Key Fix
+- Fixed a bug where creating a listing failed with the error: `duplicate key value violates unique constraint "properties_pkey"`.
+- Resolved this by appending a 4-character random alphanumeric suffix to the generated slug `id` in [AdminPanel.tsx](file:///C:/Users/Dipanjan/.gemini/antigravity/scratch/ND-Properties-2026-05-25-a1dbf/src/components/AdminPanel.tsx) (line 327) when inserting new properties. This guarantees that all new listing IDs are globally unique, preventing primary key conflicts when similar or repeated titles are entered.
+
 ---
 
 ## Deployment & Verification
