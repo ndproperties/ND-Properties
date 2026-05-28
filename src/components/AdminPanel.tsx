@@ -324,7 +324,8 @@ export default function AdminPanel({
       } else {
         // Add Mode
         const customId = propTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-        const finalId = customId || `prop-${Date.now()}`;
+        const randomSuffix = Math.random().toString(36).substring(2, 6);
+        const finalId = customId ? `${customId}-${randomSuffix}` : `prop-${Date.now()}`;
         const { error } = await supabase
           .from('properties')
           .insert({
